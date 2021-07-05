@@ -9,9 +9,11 @@ import Admin from "./views/Admin";
 import "./assets/app.scss";
 import TopBar from "./components/TopBar";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import locale from "./locales/main";
+
 
 let chatClient = new ChatClient();
-chatClient.init(store);
+chatClient.init(store, locale);
 global.ChatClient = chatClient;
 
 export default function App() {

@@ -1,10 +1,14 @@
-const socket = require("socket.io-client");
+const
+  socket = require("socket.io-client");
 
 let store;
+let locale;
 class ChatClient {
-  init(_store) {
+  init(_store, _locale) {
     store = _store;
+    locale = _locale;
   }
+
 
   constructor() {
     this._socket = null;
@@ -21,8 +25,8 @@ class ChatClient {
         type: "MESSAGE_BOX",
         payload: {
           messageBox: {
-            title: "Connection timed out",
-            message: "We couldn't connect to support server.",
+            title: locale.timed_out,
+            message: locale.couldnt_connect,
             canClose: true,
           },
         },
@@ -105,7 +109,7 @@ class ChatClient {
     return new Promise((resolve, reject) => {
       if (this._socket) this._socket.close();
 
-      const password = 123; //prompt("Please enter password:");
+      const password = prompt(locale.please_enter_password);
 
       this.createSocket({ admin: true, adminPassword: password });
 
@@ -126,8 +130,8 @@ class ChatClient {
           type: "MESSAGE_BOX",
           payload: {
             messageBox: {
-              title: "You don't have permission.",
-              message: `We couldn't connect to support server.\n ${m}`,
+              title: locale.no_permission,
+              message: locale.formatString(locale.couldnt_connect_wmessage, { message: m }),
               canClose: true,
             },
           },
@@ -171,8 +175,8 @@ class ChatClient {
             type: "MESSAGE_BOX",
             payload: {
               messageBox: {
-                title: "Connection timed out",
-                message: "We couldn't connect to support server.",
+                title: locale.timed_out,
+                message: locale.couldnt_connect,
                 canClose: true,
               },
             },

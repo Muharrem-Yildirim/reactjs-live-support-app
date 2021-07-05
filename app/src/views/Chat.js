@@ -1,14 +1,16 @@
 import React, { Component, createRef } from "react";
 import SendIcon from "@material-ui/icons/Send";
-import { Grid, IconButton } from "@material-ui/core";
 import { connect } from "react-redux";
-import AutoLinkText from "react-autolink-text2";
 import "../assets/chat.scss";
 import Moment from "moment";
 import { withChatContext } from "../ChatContext";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import AutoLinkText from "react-autolink-text2";
+import { Grid, IconButton } from "@material-ui/core";
+
 import locale from "../locales/main";
+import ChatBubble from "../components/ChatBubble";
 
 
 const Utils = require("../utils");
@@ -95,60 +97,10 @@ class Chat extends Component {
 
           </div>}
           <Grid container className="messages" ref={this.messageList}>
-            {this.props.messageHistory.map((element, key) => {
+            {this.props.messageHistory.map((element, idx) => {
+
               return (
-                <Grid
-                  item
-                  className={
-                    "message " + (element.align === "right" ? "right" : "left")
-                  }
-                  key={key}
-                >
-                  <div
-                    className="message-image"
-                    style={
-                      key > 0
-                        ? this.props.messageHistory[key - 1].align ===
-                          element.align
-                          ? { opacity: 0 }
-                          : {}
-                        : {}
-                    }
-                  >
-                    {element.isSupporter ? (
-                      <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
-                        alt="support profile"
-                      />
-                    ) : (
-                      <img
-                        src="https://www.w3schools.com/howto/img_avatar.png"
-                        alt="user profile"
-                      />
-                    )}
-                  </div>
-                  <div
-                    className="message-bubble fade-in"
-                    style={
-                      key > 0
-                        ? this.props.messageHistory[key - 1].align ===
-                          element.align
-                          ? { borderRadius: 20 }
-                          : {}
-                        : {}
-                    }
-                  >
-                    <div className="message-inside">
-                      <span className="message-text">
-                        <AutoLinkText
-                          text={element.message}
-                          disableUrlStripping={true}
-                        />
-                      </span>
-                      <span className="message-time">{element.time}</span>
-                    </div>
-                  </div>
-                </Grid>
+                <ChatBubble element={element} idx={idx} key={idx} lastAlign={this.props.messageHistory[idx - 1]?.align} />
               );
             })}
           </Grid>

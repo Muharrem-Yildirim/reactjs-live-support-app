@@ -89,7 +89,7 @@ class ChatServer {
           isSupporter: true,
           sender: 9999,
           message:
-            "Welcome to live support. Please wait for the customer representative to connect.",
+            "welcome_to_live_support",
           time: Moment(new Date()).format("HH:mm"),
         });
 
@@ -100,8 +100,7 @@ class ChatServer {
 
       if (this._joinquitLogging)
         console.log(
-          ` [+] ${socket.isSupporter ? "Supporter" : "User"} connected: ${
-            socket.id
+          ` [+] ${socket.isSupporter ? "Supporter" : "User"} connected: ${socket.id
           } (${socket.room})`
         );
 
@@ -122,15 +121,15 @@ class ChatServer {
           isSupporter: socket.isSupporter,
           sender: socket.id,
           message: data.message,
-          time: data.time,
+          // time: data.time,
+          time: Moment(new Date()).format("HH:mm"),
         });
       });
 
       socket.on("disconnect", () => {
         if (this._joinquitLogging)
           console.log(
-            ` [-] ${socket.isSupporter ? "Supporter" : "User"} disconnected: ${
-              socket.id
+            ` [-] ${socket.isSupporter ? "Supporter" : "User"} disconnected: ${socket.id
             } (${socket.room})`
           );
 
@@ -148,7 +147,7 @@ class ChatServer {
       this._io.to(roomName).emit("chat", {
         isSupporter: true,
         sender: 99999,
-        message: "Thanks for contacting us. Chat has been ended.",
+        message: "thanks_for_contacting_us",
         time: Moment(new Date()).format("HH:mm"),
       });
 
@@ -178,20 +177,20 @@ class ChatServer {
 
       this._io.sockets.adapter.rooms.get(roomName).isClaimed = true;
 
-      this._io.to(roomName).emit("chat", {
-        isSupporter: true,
-        sender: socket.id,
-        message: "Interviews are recorded due to quality standards.",
-        time: Moment(new Date()).format("HH:mm"),
-      });
+      // this._io.to(roomName).emit("chat", {
+      //   isSupporter: true,
+      //   sender: 9999,
+      //   message: "interviews_are_recorded",
+      //   time: Moment(new Date()).format("HH:mm"),
+      // });
 
       setTimeout(() => {
-        this._io.to(roomName).emit("chat", {
-          isSupporter: true,
-          sender: socket.id,
-          message: "How can I help you?",
-          time: Moment(new Date()).format("HH:mm"),
-        });
+        // this._io.to(roomName).emit("chat", {
+        //   isSupporter: true,
+        //   sender: 9999,
+        //   message: "how_can_i_help",
+        //   time: Moment(new Date()).format("HH:mm"),
+        // });
 
         this._io.to(roomName).emit("claim");
       }, 1000);
