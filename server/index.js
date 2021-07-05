@@ -1,24 +1,47 @@
 /* 
 TO DO: 
 FIX ACTION NAMES
-ADD SECURITY FOR ADMIN PANEL
 ADD PROP TYPES
+CLEAN CODE
 */
 
-const ChatServer = require("./ChatServer");
-var http = require("http");
-const express = require("express");
-const path = require("path");
-const mongoose = require("mongoose");
-const User = require("./models/userModel");
+const ChatServer = require("./ChatServer"),
+  http = require("http"),
+  express = require("express"),
+  path = require("path"),
+  mongoose = require("mongoose");
+
+const User = require("./models/userModel"), Role = require("./models/roleModel");
 require("dotenv").config();
-const port = process.env.WEB_PORT || 3000;
+
+const PORT = process.env.WEB_PORT || 3000;
 
 console.log(
   "\x1b[32m",
   "================================================================================",
   "\x1b[0m"
 );
+
+const ROLES = {
+  ADMIN: 0,
+  CUSTOMER_REPRESENTATIVE: 1
+};
+
+
+/* TO DO: 
+  ROLE MANAGEMENT SYSTEM 
+*/
+function initRoles() {
+  Object.keys(ROLES).map((role) => {
+    if (!Role.find({ name: role })) {
+      const newRole = new Role({
+        name: role,
+      });
+
+      newRole.save();
+    }
+  })
+}
 
 mongoose
   .connect("mongodb://localhost:27017/live-support-app", {
@@ -28,36 +51,40 @@ mongoose
   })
   .then(() => {
 
-const app = new express();
-var server = http.createServer(app);
+    const app = new express();
+    var server = http.createServer(app);
 
-app.use(express.static(path.resolve(__dirname, "../app/build")));
+    app.use(express.static(path.resolve(__dirname, "../app/build")));
 
-app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../app/build/index.html"));
-});
-
-
-server.listen(port, () => {
-  console.log(` > Web server is listening on: ${port} port.`);
+    app.get("/*", (req, res) => {
+      res.sendFile(path.resolve(__dirname, "../app/build/index.html"));
+    });
 
 
-  let chatServer = new ChatServer();
+    server.listen(PORT, () => {
+      console.log(` > Web server is listening on: ${PORT} port.`);
 
-//  const newUser = new User({
-//    username:"username",
-//    hash_password:"test",
-//  });
-// newUser.save();
 
-  chatServer.start(server);
-  chatServer.setJoinQuitLogging(process.env.LOG_JOINQUIT);
-  chatServer.setMessageLogging(process.env.LOG_MESSAGES);
+      let chatServer = new ChatServer();
 
-  console.log(
-    "\x1b[32m",
-    "================================================================================",
-    "\x1b[0m",
-    "\n"
-  );
-});});
+      //  const newUser = new User({
+      //    username:"username",
+      //    hash_password:"test",
+      //  });
+      // newUser.save();
+
+
+      initRoles();
+
+      chatServer.start(server);
+      chatServer.setJoinQuitLogging(process.env.LOG_JOINQUIT);
+      chatServer.setMessageLogging(process.env.LOG_MESSAGES);
+
+      console.log(
+        "\x1b[32m",
+        "================================================================================",
+        "\x1b[0m",
+        "\n"
+      );
+    });
+  });

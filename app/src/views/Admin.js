@@ -1,20 +1,30 @@
 import React, { Component } from "react";
-import { Grid, IconButton, Button } from "@material-ui/core";
 import { connect } from "react-redux";
 import "../assets/admin.scss";
-import InfoIcon from "@material-ui/icons/Info";
 import { withChatContext } from "../ChatContext";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+
+import {
+  Button,
+  Grid,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from "@material-ui/core";
 import notificationMp3 from "../assets/notification.mp3";
+
+import Ticket from "../components/Admin/Ticket";
+import InfoModal from "../components/Admin/InfoModal";
 
 import locale from "../locales/main";
 
-const Utils = require("../utils");
+import * as Utils from "../utils";
 
+
+/*
+ ROOM NAME IS UNIQUE ROOM ID SO DON'T WORRY
+*/
 class Admin extends Component {
   constructor(props) {
     super(props);
@@ -51,6 +61,19 @@ class Admin extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.tickets.length > prevProps.tickets.length)
       this.notificationAudio.play();
+  }
+
+  onClickShowInfo = (e, idx) => {
+    this.setState({ showTicketInfo: idx });
+  }
+
+  onClickClaimTicket = (e, roomName) => {
+    this.props.chatClient.claimTicket(roomName);
+
+    this.props.history.push("/chat");
+  }
+  onClickCloseTicket = (e, roomName) => {
+    this.props.chatClient.closeTicket(roomName);
   }
 
   componentDidMount() {
@@ -111,41 +134,7 @@ class Admin extends Component {
         )}
 
         {this.state.showTicketInfo != null && (
-          <Dialog
-            open={true}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{locale.ticket_owner}</DialogTitle>
-            <DialogContent>
-              <DialogContentText
-                id="alert-dialog-description"
-                className="display-linebreak"
-              >
-                <b>{locale.full_name}</b>{" "}
-                {
-                  this.props.tickets[this.state.showTicketInfo].informationData
-                    .fullName
-                }
-                <br />
-                <b>{locale.email}</b>{" "}
-                {
-                  this.props.tickets[this.state.showTicketInfo].informationData
-                    .email
-                }
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                color="primary"
-                onClick={() => {
-                  this.setState({ showTicketInfo: null });
-                }}
-              >
-                {locale.close.toLocaleUpperCase()}
-              </Button>
-            </DialogActions>
-          </Dialog>
+          <InfoModal {... this.props.tickets[this.state.showTicketInfo].informationData} />
         )}
         <Grid container className="admin-container">
           <Grid container className="chats">
@@ -164,51 +153,9 @@ class Admin extends Component {
                 {locale.no_support_request}
               </div>
             )}
-            {this.props.tickets.map((element, key) => {
-              return (
-                <Grid className="chat" key={key}>
-                  <div className="details">
-                    <div className="title">
-                      {element.informationData.fullName}
-                    </div>
-                    <div className="message">
-                      {element.informationData.message}
-                    </div>
-                  </div>
-                  <div style={{ flexGrow: 1 }} />
-                  <IconButton
-                    onClick={(e) => {
-                      this.setState({ showTicketInfo: key });
-                    }}
-                  >
-                    <InfoIcon />
-                  </IconButton>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    style={{ marginLeft: 5 }}
-                    onClick={(e) => {
-                      this.props.chatClient.claimTicket(element.roomName);
 
-                      this.props.history.push("/chat");
-                    }}
-                    disabled={element.isClaimed ? true : false}
-                  >
-                    {locale.claim.toLocaleUpperCase()}
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    style={{ marginLeft: 5 }}
-                    onClick={(e) => {
-                      this.props.chatClient.closeTicket(element.roomName);
-                    }}
-                  >
-
-                    {locale.close.toLocaleUpperCase()}
-                  </Button>
-                </Grid>
-              );
+            {this.props.tickets.map((element, idx) => {
+              return <Ticket element={element} key={idx} idx={idx} />
             })}
           </Grid>
         </Grid>
