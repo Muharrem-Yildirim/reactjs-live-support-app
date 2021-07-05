@@ -109,7 +109,8 @@ class ChatClient {
     return new Promise((resolve, reject) => {
       if (this._socket) this._socket.close();
 
-      const password = prompt(locale.please_enter_password);
+      // const password = prompt(locale.please_enter_password);
+      const password = 123;
 
       this.createSocket({ admin: true, adminPassword: password });
 

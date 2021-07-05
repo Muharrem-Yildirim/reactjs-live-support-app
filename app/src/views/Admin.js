@@ -20,6 +20,7 @@ import InfoModal from "../components/Admin/InfoModal";
 import locale from "../locales/main";
 
 import * as Utils from "../utils";
+import LoginModal from "../components/Admin/LoginModal";
 
 
 /*
@@ -136,6 +137,8 @@ class Admin extends Component {
             )}
           </Dialog>
         )}
+
+        <LoginModal />
 
         {this.state.showTicketInfo != null && (
           <InfoModal {... this.props.tickets[this.state.showTicketInfo].informationData} onCloseTicketInfo={this.onCloseTicketInfo123} />

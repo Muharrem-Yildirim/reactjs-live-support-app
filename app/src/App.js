@@ -16,6 +16,8 @@ let chatClient = new ChatClient();
 chatClient.init(store, locale);
 global.ChatClient = chatClient;
 
+document.documentElement.lang = locale.getLanguage();
+
 export default function App() {
   return (
     <Provider store={store}>

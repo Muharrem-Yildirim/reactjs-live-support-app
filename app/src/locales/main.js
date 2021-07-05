@@ -35,6 +35,9 @@ let strings = new LocalizedStrings({
         couldnt_connect_wmessage: "We couldn't connect to support server.\n {message}",
         couldnt_connect: "We couldn't connect to support server.",
         timed_out: "Connection timed out",
+        login: "Login",
+        username: "Username",
+        password: "Password"
     },
     tr: {
         connecting: "Bağlanılıyor..",
@@ -70,7 +73,9 @@ let strings = new LocalizedStrings({
         couldnt_connect_wmessage: "Destek sunucusuna bağlanırken hata oluştu.\n {message}",
         couldnt_connect: "Destek sunucusuna bağlanırken hata oluştu.",
         timed_out: "Bağlantı zaman aşımına uğradı",
-
+        login: "Giriş Yap",
+        username: "Kullanıcı Adı",
+        password: "Şifre"
     }
 });
 
