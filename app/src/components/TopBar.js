@@ -12,6 +12,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { withChatContext } from "../ChatContext";
 
+import locale from "../locales/main";
+
+
 function TopBar(props) {
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -32,14 +35,14 @@ function TopBar(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Are you sure to end chat?
+          {locale.close_dialog}
         </DialogTitle>
         <DialogActions>
           <Button onClick={() => setOpen(false)} color="primary">
-            No
+            {locale.no}
           </Button>
           <Button onClick={handleExit} color="primary">
-            Yes
+            {locale.yes}
           </Button>
         </DialogActions>
       </Dialog>
@@ -59,14 +62,14 @@ function TopBar(props) {
           <div style={{ flexGrow: 1 }} />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <Typography variant="h6" className="toolbar-header">
-              Live Support
+              {locale.live_support}
             </Typography>
 
             <p className="toolbar-status">
               <span className={"circle " + (props.isOnline ? "green" : "red")}>
                 ⬤
               </span>{" "}
-              {props.isOnline ? "Online" : "Offline"}
+              {props.isOnline ? locale.online : locale.offline}
             </p>
           </div>
           <div style={{ flexGrow: 1 }} />
@@ -83,7 +86,7 @@ function TopBar(props) {
           <div style={{ flexGrow: 1 }} />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <Typography variant="h6" className="toolbar-header">
-              Live Support
+              {locale.live_support}
             </Typography>
 
             <p className="toolbar-status">Admin Panel</p>

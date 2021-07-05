@@ -10,6 +10,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import notificationMp3 from "../assets/notification.mp3";
+
+import locale from "../locales/main";
+
 const Utils = require("../utils");
 
 class Admin extends Component {
@@ -54,7 +57,7 @@ class Admin extends Component {
     this.props.dispatch({
       type: "MESSAGE_BOX",
       payload: {
-        messageBox: { title: "Connecting..", message: "Please wait.." },
+        messageBox: { title: locale.connecting, message: locale.please_wait },
       },
     });
     this.props.chatClient.startChatAdmin().then((isConnected) => {
@@ -113,19 +116,19 @@ class Admin extends Component {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">Ticket Owner</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{locale.ticket_owner}</DialogTitle>
             <DialogContent>
               <DialogContentText
                 id="alert-dialog-description"
                 className="display-linebreak"
               >
-                <b>Full Name:</b>{" "}
+                <b>{locale.full_name}</b>{" "}
                 {
                   this.props.tickets[this.state.showTicketInfo].informationData
                     .fullName
                 }
                 <br />
-                <b>E-mail:</b>{" "}
+                <b>{locale.email}</b>{" "}
                 {
                   this.props.tickets[this.state.showTicketInfo].informationData
                     .email
@@ -139,7 +142,7 @@ class Admin extends Component {
                   this.setState({ showTicketInfo: null });
                 }}
               >
-                Close
+                {locale.close.toLocaleUpperCase()}
               </Button>
             </DialogActions>
           </Dialog>
@@ -158,7 +161,7 @@ class Admin extends Component {
                   padding: 10,
                 }}
               >
-                There is no active support request.
+                {locale.no_support_request}
               </div>
             )}
             {this.props.tickets.map((element, key) => {
@@ -191,7 +194,7 @@ class Admin extends Component {
                     }}
                     disabled={element.isClaimed ? true : false}
                   >
-                    CLAIM
+                    {locale.claim.toLocaleUpperCase()}
                   </Button>
                   <Button
                     variant="contained"
@@ -201,7 +204,8 @@ class Admin extends Component {
                       this.props.chatClient.closeTicket(element.roomName);
                     }}
                   >
-                    CLOSE
+
+                    {locale.close.toLocaleUpperCase()}
                   </Button>
                 </Grid>
               );

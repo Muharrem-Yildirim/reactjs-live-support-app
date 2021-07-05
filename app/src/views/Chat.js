@@ -6,6 +6,11 @@ import AutoLinkText from "react-autolink-text2";
 import "../assets/chat.scss";
 import Moment from "moment";
 import { withChatContext } from "../ChatContext";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import locale from "../locales/main";
+
+
 const Utils = require("../utils");
 
 class Chat extends Component {
@@ -82,7 +87,13 @@ class Chat extends Component {
   render() {
     return (
       <React.Fragment>
+
         <Grid container className="chat-container">
+          {!this.props.isOnline && <div className="offline-loading">
+            <CircularProgress style={{ color: "orange" }} size='3rem' />
+            <span>{locale.please_wait}</span>
+
+          </div>}
           <Grid container className="messages" ref={this.messageList}>
             {this.props.messageHistory.map((element, key) => {
               return (
@@ -148,7 +159,7 @@ class Chat extends Component {
               type="text"
               name="message"
               ref={this.messageInput}
-              placeholder="Enter message.."
+              placeholder={locale.enter_message}
               onChange={this.onInputChange}
               onKeyDown={this.onKeyDown}
               value={this.state.message}
@@ -163,8 +174,8 @@ class Chat extends Component {
               this.state.message.length === 0
                 ? true
                 : !this.props.isOnline
-                ? true
-                : false
+                  ? true
+                  : false
             }
           >
             <SendIcon />

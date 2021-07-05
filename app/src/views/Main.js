@@ -5,6 +5,8 @@ import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { withChatContext } from "../ChatContext";
 
+import locale from "../locales/main";
+
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -27,7 +29,7 @@ class Main extends Component {
     this.props.dispatch({
       type: "MESSAGE_BOX",
       payload: {
-        messageBox: { title: "Connecting..", message: "Please wait.." },
+        messageBox: { title: locale.connecting, message: locale.please_wait },
       },
     });
 
@@ -87,19 +89,19 @@ class Main extends Component {
                     });
                   }}
                 >
-                  Close
+                  {locale.close}
                 </Button>
               </DialogActions>
             )}
           </Dialog>
         )}
         <div className="main">
-          <h1 className="">Welcome to live support.</h1>
-          <h4 className="">Please enter these informations to start chat.</h4>
+          <h1 className="">{locale.welcome}</h1>
+          <h4 className="">{locale.welcome_info}</h4>
           <form className="form">
             <TextField
-              label="Name"
-              placeholder="Please enter full name."
+              label={locale.name}
+              placeholder={locale.please_enter_name}
               // helperText="error"
               fullWidth
               margin="normal"
@@ -108,16 +110,16 @@ class Main extends Component {
               onChange={this.onInputChange}
             />
             <TextField
-              label="E-Mail"
-              placeholder="Please enter e-mail adress."
+              label={locale.mail}
+              placeholder={locale.please_enter_mail}
               variant="filled"
               fullWidth
               name="email"
               onChange={this.onInputChange}
             />
             <TextField
-              label="Message"
-              placeholder="Please enter message."
+              label={locale.message}
+              placeholder={locale.please_enter_message}
               fullWidth
               variant="filled"
               margin="normal"
@@ -132,7 +134,7 @@ class Main extends Component {
               className="start-chat-btn"
               onClick={this.startChat}
             >
-              Start Chat
+              {locale.start_chat}
             </Button>
           </form>
         </div>
