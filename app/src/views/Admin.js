@@ -76,6 +76,10 @@ class Admin extends Component {
     this.props.chatClient.closeTicket(roomName);
   }
 
+  onCloseTicketInfo = (e) => {
+    this.setState({ showTicketInfo: null });
+  }
+
   componentDidMount() {
     this.props.dispatch({
       type: "MESSAGE_BOX",
@@ -134,7 +138,7 @@ class Admin extends Component {
         )}
 
         {this.state.showTicketInfo != null && (
-          <InfoModal {... this.props.tickets[this.state.showTicketInfo].informationData} />
+          <InfoModal {... this.props.tickets[this.state.showTicketInfo].informationData} onCloseTicketInfo={this.onCloseTicketInfo123} />
         )}
         <Grid container className="admin-container">
           <Grid container className="chats">
@@ -155,7 +159,7 @@ class Admin extends Component {
             )}
 
             {this.props.tickets.map((element, idx) => {
-              return <Ticket element={element} key={idx} idx={idx} />
+              return <Ticket element={element} key={idx} idx={idx} onClickShowInfo={this.onClickShowInfo} onClickClaimTicket={this.onClickClaimTicket} onClickCloseTicket={this.onClickCloseTicket} />
             })}
           </Grid>
         </Grid>

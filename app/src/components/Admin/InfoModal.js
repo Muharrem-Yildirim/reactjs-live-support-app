@@ -40,9 +40,7 @@ export default function InfoModal(props) {
             <DialogActions>
                 <Button
                     color="primary"
-                    onClick={() => {
-                        this.setState({ showTicketInfo: null });
-                    }}
+                    onClick={() => { props.onCloseTicketInfo() }}
                 >
                     {locale.close.toLocaleUpperCase()}
                 </Button>
