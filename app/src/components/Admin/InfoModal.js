@@ -8,7 +8,7 @@ import {
     DialogTitle
 } from "@material-ui/core";
 
-import locale from "../locales/main";
+import locale from "../../locales/main";
 
 
 export default function InfoModal(props) {

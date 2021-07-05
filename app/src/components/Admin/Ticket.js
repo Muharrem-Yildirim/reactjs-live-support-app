@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid, IconButton, Button } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
 
-import locale from "../locales/main";
+import locale from "../../locales/main";
 
 export default function Ticket({ element, idx, onClickShowInfo, onClickClaimTicket, onClickCloseTicket }) {
     return (
