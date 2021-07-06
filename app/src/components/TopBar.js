@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
 import { useLocation, withRouter } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { IconButton, Button } from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import {
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  IconButton,
+  Button,
+  Toolbar,
+  AppBar,
+  Typography
+} from "@material-ui/core";
 import { withChatContext } from "../ChatContext";
+import ExitModal from "../components/ExitModal";
 
 import locale from "../locales/main";
 
@@ -28,24 +32,7 @@ function TopBar(props) {
 
   return (
     <AppBar position="relative" color="primary">
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {locale.close_dialog}
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)} color="primary">
-            {locale.no}
-          </Button>
-          <Button onClick={handleExit} color="primary">
-            {locale.yes}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ExitModal open={open} setOpen={setOpen} handleExit={handleExit} />
 
       {location.pathname === "/chat" && (
         <Toolbar className="toolbar">
@@ -89,7 +76,7 @@ function TopBar(props) {
               {locale.live_support}
             </Typography>
 
-            <p className="toolbar-status">Admin Panel</p>
+            <p className="toolbar-status">  {locale.management}</p>
           </div>
           <div style={{ flexGrow: 1 }} />
         </Toolbar>

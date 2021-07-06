@@ -9,10 +9,14 @@ export default function Ticket({ element, idx, onClickShowInfo, onClickClaimTick
         <Grid className="chat">
             <div className="details">
                 <div className="title">
-                    {element.informationData.fullName}
+                    {element.informationData.fullName === "Unknown" ?
+                        locale.unknown :
+                        element.informationData.fullName}
                 </div>
                 <div className="message">
-                    {element.informationData.message}
+                    {element.informationData.message === "Unknown" ?
+                        locale.unknown :
+                        element.informationData.message}
                 </div>
             </div>
             <div style={{ flexGrow: 1 }} />

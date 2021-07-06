@@ -13,7 +13,7 @@ import { withChatContext } from "../../ChatContext";
 import { connect } from 'react-redux';
 
 
-class LoginModal extends Component {
+class AddUserModal extends Component {
     constructor(props) {
         super(props);
 
@@ -21,57 +21,6 @@ class LoginModal extends Component {
             username: "",
             password: ""
         }
-    }
-
-    componentDidMount() {
-        if (window.localStorage.getItem("autologin")) {
-            this.setState({
-                username: window.localStorage.getItem("username"),
-                password: window.localStorage.getItem("password")
-            }, () => {
-                this.connectAsAdmin();
-            })
-
-
-        }
-    }
-
-    connectAsAdmin = () => {
-        this.props.dispatch({
-            type: "MESSAGE_BOX",
-            payload: {
-                messageBox: { title: locale.connecting, message: locale.please_wait },
-            },
-        });
-
-        this.props.chatClient.startChatAdmin(
-            this.state.username,
-            this.state.password
-        ).then((isConnected) => {
-            if (isConnected) {
-                this.props.dispatch({
-                    type: "MESSAGE_BOX",
-                    payload: {
-                        messageBox: null,
-                    },
-                });
-
-                this.props.dispatch({
-                    type: "ADMIN_LOGGEDIN",
-                    payload: {
-                        isLoggedin: true,
-                    },
-                });
-            }
-        });
-    }
-
-    onClickLogin = () => {
-        window.localStorage.setItem("username", this.state.username);
-        window.localStorage.setItem("password", this.state.password);
-        window.localStorage.setItem("autologin", true);
-
-        this.connectAsAdmin();
     }
 
     onInputChange = (e) => {
@@ -92,11 +41,12 @@ class LoginModal extends Component {
         return (
             <Dialog
                 open
+                onClose={this.props.toggleAddUser}
                 maxWidth="xs"
                 fullWidth
             >
 
-                <DialogTitle>{locale.login}</DialogTitle>
+                <DialogTitle>{locale.add_user}</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -120,8 +70,8 @@ class LoginModal extends Component {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.onClickLogin} color="primary">
-                        {locale.login}
+                    <Button onClick={this.onClickAdd} color="primary">
+                        {locale.add}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -139,4 +89,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default withChatContext(connect(mapStateToProps)(LoginModal));
+export default withChatContext(connect(mapStateToProps)(AddUserModal));

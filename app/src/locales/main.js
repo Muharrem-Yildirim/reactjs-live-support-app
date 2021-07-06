@@ -38,7 +38,13 @@ let strings = new LocalizedStrings({
         login: "Login",
         username: "Username",
         password: "Password",
-        wrong_username_or_password: "Wrong username or password."
+        wrong_username_or_password: "Wrong username or password.",
+        add_user: "Add User",
+        list_user: "List Users",
+        chat_logs: "Chat Logs",
+        unknown: "Unknown",
+        add: "Add",
+        management: "Management",
     },
     tr: {
         connecting: "Bağlanılıyor..",
@@ -77,7 +83,13 @@ let strings = new LocalizedStrings({
         login: "Giriş Yap",
         username: "Kullanıcı Adı",
         password: "Şifre",
-        wrong_username_or_password: "Hatalı kullanıcı adı veya şifre."
+        wrong_username_or_password: "Hatalı kullanıcı adı veya şifre.",
+        add_user: "Kullanıcı Ekle",
+        list_user: "Kullanıcıları Listele",
+        chat_logs: "Sohbet Kayıtları",
+        unknown: "Belirsiz",
+        add: "Ekle",
+        management: "Yönetim",
     }
 });
 

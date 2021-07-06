@@ -5,6 +5,7 @@ import { withChatContext } from "../ChatContext";
 
 import {
   Grid,
+  Button
 
 } from "@material-ui/core";
 import notificationMp3 from "../assets/notification.mp3";
@@ -16,6 +17,7 @@ import locale from "../locales/main";
 
 import * as Utils from "../utils";
 import LoginModal from "../components/Admin/LoginModal";
+import AddUserModal from "../components/Admin/AddUserModal";
 
 
 /*
@@ -27,6 +29,7 @@ class Admin extends Component {
 
     this.state = {
       showTicketInfo: null,
+      addUserModal: false,
     };
 
     this.notificationAudio = new Audio(notificationMp3);
@@ -73,12 +76,23 @@ class Admin extends Component {
   }
 
   onCloseTicketInfo = (e) => {
-    this.setState({ showTicketInfo: null });
+    this.setState((prevState) => {
+      return { ...prevState, showTicketInfo: null }
+    });
+  }
+
+  toggleAddUser = (e) => {
+    this.setState((prevState) => {
+      return { ...prevState, addUserModal: !prevState.addUserModal }
+    });
   }
 
   render() {
     return (
       <React.Fragment>
+        {this.state.addUserModal && <AddUserModal
+          toggleAddUser={this.toggleAddUser} />}
+
         {!this.props.isLoggedin && <LoginModal connectAsAdmin={this.connectAsAdmin} />}
 
         {this.state.showTicketInfo != null && (
@@ -105,8 +119,30 @@ class Admin extends Component {
             {this.props.tickets.map((element, idx) => {
               return <Ticket element={element} key={idx} idx={idx} onClickShowInfo={this.onClickShowInfo} onClickClaimTicket={this.onClickClaimTicket} onClickCloseTicket={this.onClickCloseTicket} />
             })}
+            {this.props.tickets.map((element, idx) => {
+              return <Ticket element={element} key={idx} idx={idx} onClickShowInfo={this.onClickShowInfo} onClickClaimTicket={this.onClickClaimTicket} onClickCloseTicket={this.onClickCloseTicket} />
+            })}
+
           </Grid>
+          <div className="admin-bottom">
+            <Button variant="contained" toggleAddUser={this.toggleAddUser}
+              onClick={() => {
+                this.setState(
+                  {
+                    ...this.state,
+                    addUserModal: true,
+                  }
+                )
+              }}>{locale.add_user}</Button>
+            <Button variant="contained">{locale.list_user}</Button>
+            <Button variant="contained">{locale.chat_logs}</Button>
+
+          </div>
+
+
         </Grid>
+
+
       </React.Fragment>
     );
   }

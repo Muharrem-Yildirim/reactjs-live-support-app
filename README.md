@@ -18,6 +18,6 @@
 
 ## TO-DO
 
-- Authentication system for admin panel.
 - Role management system.
+- <s>Authentication system for admin panel.</s>, turn it to JWT
 - <s>Language system.</s>
