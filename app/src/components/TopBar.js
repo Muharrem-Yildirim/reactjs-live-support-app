@@ -4,11 +4,7 @@ import { useLocation, withRouter } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import {
-  Dialog,
-  DialogActions,
-  DialogTitle,
   IconButton,
-  Button,
   Toolbar,
   AppBar,
   Typography

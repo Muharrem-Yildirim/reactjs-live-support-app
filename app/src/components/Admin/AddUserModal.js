@@ -4,7 +4,6 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    withMobileDialog,
     Button,
     TextField
 } from '@material-ui/core';
@@ -21,6 +20,11 @@ class AddUserModal extends Component {
             username: "",
             password: ""
         }
+    }
+
+    onClickAdd = () => {
+        this.props.chatClient._socket.emit("addUser", { username: this.state.username, password: this.state.password });
+        this.props.toggleAddUser();
     }
 
     onInputChange = (e) => {

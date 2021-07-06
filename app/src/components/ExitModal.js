@@ -3,11 +3,7 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
-  IconButton,
   Button,
-  Toolbar,
-  AppBar,
-  Typography
 } from "@material-ui/core";
 
 import locale from "../locales/main";

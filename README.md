@@ -18,6 +18,7 @@
 
 ## TO-DO
 
+- Clean Code.
 - Role management system.
 - <s>Authentication system for admin panel.</s>, turn it to JWT
 - <s>Language system.</s>

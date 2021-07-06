@@ -22,6 +22,6 @@ schema.methods.comparePassword = function (password) {
 };
 
 // bcrypt.hashSync(req.body.password, 10);
-console.log(bcrypt.hashSync("123", 10));
+// console.log(bcrypt.hashSync("123", 10));
 
 module.exports = mongoose.model("User", schema);

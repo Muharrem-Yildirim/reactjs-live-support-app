@@ -11,7 +11,7 @@ export default function Ticket({ element, idx, onClickShowInfo, onClickClaimTick
                 <div className="title">
                     {element.informationData.fullName === "Unknown" ?
                         locale.unknown :
-                        element.informationData.fullName}
+                        element.informationData.fullName} ({element.roomName})
                 </div>
                 <div className="message">
                     {element.informationData.message === "Unknown" ?

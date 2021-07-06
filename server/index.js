@@ -2,7 +2,8 @@ const ChatServer = require("./ChatServer"),
   http = require("http"),
   express = require("express"),
   path = require("path"),
-  mongoose = require("mongoose");
+  mongoose = require("mongoose"),
+  glob = require('glob');
 
 const User = require("./models/userModel"), Role = require("./models/roleModel");
 require("dotenv").config();
@@ -49,9 +50,31 @@ mongoose
 
     app.use(express.static(path.resolve(__dirname, "../app/build")));
 
+    app.use("/chat-histories", express.static(path.resolve(__dirname, "./chat-histories")));
+
+    app.get("/api/list", async (req, res) => {
+      let files = await glob(__dirname + '/chat-histories/*.html', {}, async (err, files) => {
+
+        let newArr = [];
+        Promise.all(await files.map(file => {
+
+          file = path.basename(file);
+
+          newArr.push(file);
+        }
+        )).then(() => {
+
+          return res.json(newArr);
+        });
+      });
+
+    })
+
     app.get("/*", (req, res) => {
       res.sendFile(path.resolve(__dirname, "../app/build/index.html"));
     });
+
+
 
 
     server.listen(PORT, () => {

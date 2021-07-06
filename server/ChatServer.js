@@ -1,4 +1,9 @@
-const Moment = require("moment"), Utils = require("./utils");
+const
+  moment = require("moment"),
+  Utils = require("./utils"),
+  swig = require('swig'),
+  fs = require('fs');
+
 
 const userModel = require("./models/userModel")
 
@@ -12,6 +17,8 @@ class ChatServer {
     this._ticketsCache = [];
 
     this._lastRoomId = 0;
+
+    this._messageHistories = new Map();
   }
 
   setJoinQuitLogging(state) {
@@ -54,6 +61,8 @@ class ChatServer {
 
         if (user && user.comparePassword(socket.handshake?.query?.adminPassword)) {
           socket.isSupporter = true;
+          socket.adminUsername = socket.handshake?.query?.adminUsername;
+
           next();
         } else next(new Error("Authentication error"));
       }
@@ -94,15 +103,18 @@ class ChatServer {
         socket.room = "supporters";
         this.handleSupporter(socket);
       } else {
-        socket.join("room_" + this._lastRoomId);
-        socket.room = "room_" + this._lastRoomId;
+        let roomName = "room_" + this._lastRoomId;
+
+        socket.join(roomName);
+        socket.room = roomName;
+        this._io.sockets.adapter.rooms.get(roomName).customer = socket.informationData;
 
         this._io.to(socket.room).emit("chat", {
           isSupporter: true,
           sender: 9999,
           message:
             "welcome_to_live_support",
-          time: Moment(new Date()).format("HH:mm"),
+          time: moment(new Date()).format("HH:mm"),
         });
 
         this._lastRoomId++;
@@ -127,6 +139,21 @@ class ChatServer {
             data,
             `-> Sending to [${socket.room}] ${messageSentUsers} users.`
           );
+
+          if (!this._messageHistories.has(socket.room)) {
+            this._messageHistories.set(socket.room, []);
+          }
+
+          this._messageHistories.set(socket.room, [
+            ...this._messageHistories.get(socket.room),
+            {
+              isSupporter: socket.isSupporter ? true : false,
+              message: data.message,
+              time: moment(new Date()).format("HH:mm").toString(),
+            }
+          ]);
+
+          console.log(this._messageHistories.get(socket.room));
         }
 
         this._io.to(socket.room).emit("chat", {
@@ -134,7 +161,7 @@ class ChatServer {
           sender: socket.id,
           message: data.message,
           // time: data.time,
-          time: Moment(new Date()).format("HH:mm"),
+          time: moment(new Date()).format("HH:mm"),
         });
       });
 
@@ -158,10 +185,26 @@ class ChatServer {
     if (bySupporter)
       this._io.to(roomName).emit("chat", {
         isSupporter: true,
-        sender: 99999,
+        sender: -1,
         message: "thanks_for_contacting_us",
-        time: Moment(new Date()).format("HH:mm"),
+        time: moment(new Date()).format("HH:mm"),
       });
+
+    var template = swig.compileFile('./other/chat_history.html');
+    var output = template({
+      customer: { ...this._io.sockets.adapter.rooms.get(roomName)?.customer },
+      supporter: { ...this._io.sockets.adapter.rooms.get(roomName)?.supporter },
+      messages: this._messageHistories.get(roomName)
+    });
+
+    let fileName = "./chat-histories/" + moment().format("YYYY-MM-DD__HH_mm_ss") + "_" + Utils.makeid(10) + ".html";
+    fs.writeFile(fileName, output, function (err) {
+      if (err) {
+        return console.log(err);
+      }
+
+      console.log(fileName);
+    });
 
     Array.from(this._io.of("/").in(roomName).sockets).forEach((socket) => {
       if (socket[1].room == roomName) {
@@ -182,18 +225,26 @@ class ChatServer {
       this.syncTickets();
     });
 
+    socket.on("addUser", ({ username, password }) => {
+      new userModel({
+        username: username,
+        hash_password: Utils.hashPassword(password)
+      }).save();
+    });
+
     socket.on("claimTicket", (roomName) => {
       socket.leave(socket.room);
       socket.join(roomName);
       socket.room = roomName;
 
       this._io.sockets.adapter.rooms.get(roomName).isClaimed = true;
+      this._io.sockets.adapter.rooms.get(roomName).supporter = { name: socket.adminUsername };
 
       // this._io.to(roomName).emit("chat", {
       //   isSupporter: true,
       //   sender: 9999,
       //   message: "interviews_are_recorded",
-      //   time: Moment(new Date()).format("HH:mm"),
+      //   time: moment(new Date()).format("HH:mm"),
       // });
 
       setTimeout(() => {
@@ -201,7 +252,7 @@ class ChatServer {
         //   isSupporter: true,
         //   sender: 9999,
         //   message: "how_can_i_help",
-        //   time: Moment(new Date()).format("HH:mm"),
+        //   time: moment(new Date()).format("HH:mm"),
         // });
 
         this._io.to(roomName).emit("claim");
