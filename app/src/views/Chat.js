@@ -1,5 +1,4 @@
 import React, { Component, createRef } from "react";
-import SendIcon from "@material-ui/icons/Send";
 import { connect } from "react-redux";
 import "../assets/chat.scss";
 import Moment from "moment";
@@ -8,9 +7,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import AutoLinkText from "react-autolink-text2";
 import { Grid, IconButton } from "@material-ui/core";
+import SendIcon from "@material-ui/icons/Send";
 
 import locale from "../locales/main";
 import ChatBubble from "../components/ChatBubble";
+import ChatBottom from "../components/ChatBottom";
 
 
 const Utils = require("../utils");
@@ -105,34 +106,14 @@ class Chat extends Component {
             })}
           </Grid>
         </Grid>
-        <div className="messages-bottom">
-          <div className="message-textbox">
-            <input
-              type="text"
-              name="message"
-              ref={this.messageInput}
-              placeholder={locale.enter_message}
-              onChange={this.onInputChange}
-              onKeyDown={this.onKeyDown}
-              value={this.state.message}
-              disabled={!this.props.isOnline ? true : false}
-            />
-          </div>
-          <IconButton
-            aria-label=""
-            className="message-send-button"
-            onClick={this.onPressButton}
-            disabled={
-              this.state.message.length === 0
-                ? true
-                : !this.props.isOnline
-                  ? true
-                  : false
-            }
-          >
-            <SendIcon />
-          </IconButton>
-        </div>
+        <ChatBottom
+          messageInput={this.messageInput}
+          onInputChange={this.onInputChange}
+          onKeyDown={this.onKeyDown}
+          onPressButton={this.onPressButton}
+          message={this.state.message}
+          isOnline={this.props.isOnline}
+        />
       </React.Fragment>
     );
   }

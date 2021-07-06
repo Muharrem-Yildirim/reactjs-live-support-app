@@ -16,7 +16,6 @@ import "./assets/app.scss";
 class App extends React.Component {
   render() {
     return (
-
       <BrowserRouter>
         {this.props.messageBox && <MessageBox {...this.props.messageBox} />}
 

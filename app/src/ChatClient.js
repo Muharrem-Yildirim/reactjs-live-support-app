@@ -55,6 +55,13 @@ class ChatClient {
         clearTimeout(this._socket._connectTimer);
         console.log("Succesfully connected to support server.");
 
+        store.dispatch({
+          type: "MESSAGE_BOX",
+          payload: {
+            messageBox: null,
+          },
+        });
+
         this._socket.on("claim", () => {
           store.dispatch({
             type: "ONLINE_STATE",

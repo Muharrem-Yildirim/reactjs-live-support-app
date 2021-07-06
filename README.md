@@ -1,6 +1,6 @@
-# reactjs-live-support-system
+# reactjs-live-support-app
 
-<p>Simple live support system made with React.js, socket.io and Node.js.</p>
+<p>Simple live support app made with React.js, socket.io, mongoose and Node.js.</p>
 
 <table>
   <tr>

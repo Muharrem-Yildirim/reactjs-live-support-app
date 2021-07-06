@@ -102,7 +102,7 @@ class Admin extends Component {
   render() {
     return (
       <React.Fragment>
-        <LoginModal />
+        {/* <LoginModal /> */}
 
         {this.state.showTicketInfo != null && (
           <InfoModal {... this.props.tickets[this.state.showTicketInfo].informationData} onCloseTicketInfo={this.onCloseTicketInfo123} />
