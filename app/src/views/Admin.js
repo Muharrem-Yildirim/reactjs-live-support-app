@@ -18,7 +18,7 @@ import locale from "../locales/main";
 import * as Utils from "../utils";
 import LoginModal from "../components/Admin/LoginModal";
 import AddUserModal from "../components/Admin/AddUserModal";
-
+import ListChatHistoriesModal from "../components/Admin/ListChatHistoriesModal";
 
 /*
  ROOM NAME IS UNIQUE ROOM ID SO DON'T WORRY
@@ -30,6 +30,7 @@ class Admin extends Component {
     this.state = {
       showTicketInfo: null,
       addUserModal: false,
+      listChatHistories: false,
     };
 
     this.notificationAudio = new Audio(notificationMp3);
@@ -93,6 +94,8 @@ class Admin extends Component {
         {this.state.addUserModal && <AddUserModal
           toggleAddUser={this.toggleAddUser} />}
 
+        {this.state.listChatHistories && <ListChatHistoriesModal />}
+
         {!this.props.isLoggedin && <LoginModal connectAsAdmin={this.connectAsAdmin} />}
 
         {this.state.showTicketInfo != null && (
@@ -135,7 +138,16 @@ class Admin extends Component {
                 )
               }}>{locale.add_user}</Button>
             <Button variant="contained">{locale.list_user}</Button>
-            <Button variant="contained">{locale.chat_logs}</Button>
+            <Button variant="contained"
+
+              onClick={() => {
+                this.setState(
+                  {
+                    ...this.state,
+                    listChatHistories: true,
+                  }
+                )
+              }}>{locale.chat_logs}</Button>
 
           </div>
 

@@ -3,6 +3,7 @@ const ChatServer = require("./ChatServer"),
   express = require("express"),
   path = require("path"),
   mongoose = require("mongoose"),
+  cors = require("cors"),
   glob = require('glob');
 
 const User = require("./models/userModel"), Role = require("./models/roleModel");
@@ -48,11 +49,13 @@ mongoose
     const app = new express();
     var server = http.createServer(app);
 
+    app.use(cors());
+
     app.use(express.static(path.resolve(__dirname, "../app/build")));
 
     app.use("/chat-histories", express.static(path.resolve(__dirname, "./chat-histories")));
 
-    app.get("/api/list", async (req, res) => {
+    app.get("/api/chat-histories", async (req, res) => {
       let files = await glob(__dirname + '/chat-histories/*.html', {}, async (err, files) => {
 
         let newArr = [];
