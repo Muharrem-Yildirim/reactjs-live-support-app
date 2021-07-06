@@ -4,6 +4,7 @@ const initialState = {
   isSupporter: false,
   claimedTicket: null,
   isOnline: false,
+  isLoggedin: false,
   messageBox: null, // { title: "error", message: "bla bla", canClose: false }
   messageHistory: [],
   tickets: [],
@@ -29,6 +30,11 @@ const reducer = (state = initialState, action) => {
     return {
       ...state,
       messageHistory: [...state.messageHistory, action.payload.message],
+    };
+  } else if (action.type === "ADMIN_LOGGEDIN") {
+    return {
+      ...state,
+      isLoggedin: action.payload.isLoggedin,
     };
   } else if (action.type === "TICKETS") {
     return {

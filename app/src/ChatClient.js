@@ -112,14 +112,11 @@ class ChatClient {
     });
   }
 
-  startChatAdmin() {
+  startChatAdmin(username, password) {
     return new Promise((resolve, reject) => {
       if (this._socket) this._socket.close();
 
-      // const password = prompt(locale.please_enter_password);
-      const password = 123;
-
-      this.createSocket({ admin: true, adminPassword: password });
+      this.createSocket({ admin: true, adminUsername: username, adminPassword: password });
 
       store.dispatch({
         type: "IS_SUPPORTER",
@@ -144,6 +141,16 @@ class ChatClient {
             },
           },
         });
+
+        store.dispatch({
+          type: "ADMIN_LOGGEDIN",
+          payload: {
+            isLoggedin: false
+          },
+        });
+
+        // alert(locale.wrong_username_or_password);
+        // window.location.reload();
       });
 
       this._socket.on("connect", (socket) => {
@@ -187,6 +194,13 @@ class ChatClient {
                 message: locale.couldnt_connect,
                 canClose: true,
               },
+            },
+          });
+
+          store.dispatch({
+            type: "ADMIN_LOGGEDIN",
+            payload: {
+              isLoggedin: false
             },
           });
 

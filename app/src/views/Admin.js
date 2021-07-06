@@ -4,13 +4,8 @@ import "../assets/admin.scss";
 import { withChatContext } from "../ChatContext";
 
 import {
-  Button,
   Grid,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle
+
 } from "@material-ui/core";
 import notificationMp3 from "../assets/notification.mp3";
 
@@ -81,28 +76,10 @@ class Admin extends Component {
     this.setState({ showTicketInfo: null });
   }
 
-  componentDidMount() {
-    this.props.dispatch({
-      type: "MESSAGE_BOX",
-      payload: {
-        messageBox: { title: locale.connecting, message: locale.please_wait },
-      },
-    });
-    this.props.chatClient.startChatAdmin().then((isConnected) => {
-      if (isConnected)
-        this.props.dispatch({
-          type: "MESSAGE_BOX",
-          payload: {
-            messageBox: null,
-          },
-        });
-    });
-  }
-
   render() {
     return (
       <React.Fragment>
-        {/* <LoginModal /> */}
+        {!this.props.isLoggedin && <LoginModal connectAsAdmin={this.connectAsAdmin} />}
 
         {this.state.showTicketInfo != null && (
           <InfoModal {... this.props.tickets[this.state.showTicketInfo].informationData} onCloseTicketInfo={this.onCloseTicketInfo123} />
@@ -137,6 +114,7 @@ class Admin extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    isLoggedin: state.isLoggedin,
     isOnline: state.isOnline,
     messageHistory: state.messageHistory,
     messageBox: state.messageBox,

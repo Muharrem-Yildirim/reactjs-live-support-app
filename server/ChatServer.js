@@ -1,5 +1,6 @@
-const Moment = require("moment");
-const Utils = require("./utils");
+const Moment = require("moment"), Utils = require("./utils");
+
+const userModel = require("./models/userModel")
 
 class ChatServer {
   constructor() {
@@ -31,7 +32,7 @@ class ChatServer {
       },
     });
 
-    this._io.use(function (socket, next) {
+    this._io.use(async function (socket, next) {
       if (typeof socket.handshake.query.admin === "undefined") {
         if (typeof socket.handshake.query.informationData !== "undefined") {
           socket.handshake.query.informationData = JSON.parse(
@@ -44,10 +45,21 @@ class ChatServer {
         return next();
       }
 
-      if (socket.handshake.query.adminPassword == "123") {
-        socket.isSupporter = true;
-        next();
-      } else next(new Error("Authentication error"));
+      try {
+        let user = await userModel.findOne(
+          {
+            username: socket.handshake?.query?.adminUsername
+          },
+        );
+
+        if (user && user.comparePassword(socket.handshake?.query?.adminPassword)) {
+          socket.isSupporter = true;
+          next();
+        } else next(new Error("Authentication error"));
+      }
+      catch (e) {
+        console.log(e);
+      }
     });
 
     this.handleUsers();

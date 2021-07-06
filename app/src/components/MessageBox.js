@@ -10,8 +10,16 @@ import Button from "@material-ui/core/Button";
 
 import locale from "../locales/main";
 
+import store from "../redux/store";
 
 export default function MessageBox({ title, message, canClose }) {
+    const onClickClose = () => {
+        store.dispatch({
+            type: "MESSAGE_BOX",
+            payload: { messageBox: null },
+        });
+    }
+
     return (
         <Dialog
             open={true}
@@ -33,12 +41,7 @@ export default function MessageBox({ title, message, canClose }) {
                 <DialogActions>
                     <Button
                         color="primary"
-                        onClick={() => {
-                            this.props.dispatch({
-                                type: "MESSAGE_BOX",
-                                payload: { messageBox: null },
-                            });
-                        }}
+                        onClick={onClickClose}
                     >
                         {locale.close}
                     </Button>

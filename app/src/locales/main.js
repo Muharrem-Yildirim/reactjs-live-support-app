@@ -37,7 +37,8 @@ let strings = new LocalizedStrings({
         timed_out: "Connection timed out",
         login: "Login",
         username: "Username",
-        password: "Password"
+        password: "Password",
+        wrong_username_or_password: "Wrong username or password."
     },
     tr: {
         connecting: "Bağlanılıyor..",
@@ -75,7 +76,8 @@ let strings = new LocalizedStrings({
         timed_out: "Bağlantı zaman aşımına uğradı",
         login: "Giriş Yap",
         username: "Kullanıcı Adı",
-        password: "Şifre"
+        password: "Şifre",
+        wrong_username_or_password: "Hatalı kullanıcı adı veya şifre."
     }
 });
 
