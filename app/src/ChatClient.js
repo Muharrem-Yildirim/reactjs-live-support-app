@@ -45,7 +45,7 @@ class ChatClient {
       if (this._socket) this._socket.close();
 
       store.dispatch({
-        type: "SET_MESSAGE_HISTORY",
+        type: "MESSAGE_HISTORY",
         payload: { messageHistory: [] },
       });
 
@@ -162,7 +162,7 @@ class ChatClient {
 
         this._socket.on("tickets", (data) => {
           store.dispatch({
-            type: "SET_SUPPORTER_TICKETS",
+            type: "TICKETS",
             payload: {
               tickets: data.tickets,
             },
@@ -195,7 +195,7 @@ class ChatClient {
 
   onDisconnect() {
     store.dispatch({
-      type: "SET_CLAIMED_TICKET",
+      type: "CLAIMED_TICKET",
       payload: {
         claimedTicket: null,
       },
@@ -215,14 +215,14 @@ class ChatClient {
 
   claimTicket(roomName) {
     store.dispatch({
-      type: "SET_CLAIMED_TICKET",
+      type: "CLAIMED_TICKET",
       payload: {
         claimedTicket: roomName,
       },
     });
 
     store.dispatch({
-      type: "SET_MESSAGE_HISTORY",
+      type: "MESSAGE_HISTORY",
       payload: { messageHistory: [] },
     });
 

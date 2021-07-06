@@ -3,7 +3,6 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     withMobileDialog,
     Button,
@@ -18,7 +17,6 @@ class Login extends Component {
             <Dialog
                 open
                 onRequestClose={this.props.toggleLogin}
-                fullScreen={this.props.fullScreen}
                 maxWidth="xs"
                 fullWidth
             >

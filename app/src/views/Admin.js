@@ -102,42 +102,6 @@ class Admin extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.props.messageBox != null && (
-          <Dialog
-            open={true}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {this.props.messageBox.title}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText
-                id="alert-dialog-description"
-                className="display-linebreak"
-              >
-                {this.props.messageBox.message}
-              </DialogContentText>
-            </DialogContent>
-            {this.props.messageBox.canClose && (
-              <DialogActions>
-                <Button
-                  color="primary"
-                  onClick={() => {
-                    this.props.history.push("/");
-                    this.props.dispatch({
-                      type: "MESSAGE_BOX",
-                      payload: { messageBox: null },
-                    });
-                  }}
-                >
-                  Close
-                </Button>
-              </DialogActions>
-            )}
-          </Dialog>
-        )}
-
         <LoginModal />
 
         {this.state.showTicketInfo != null && (

@@ -19,3 +19,5 @@
 ## TO-DO
 
 - Authentication system for admin panel.
+- Role management system.
+- <s>Language system.</s>

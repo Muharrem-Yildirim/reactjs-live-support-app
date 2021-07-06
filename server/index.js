@@ -1,10 +1,3 @@
-/* 
-TO DO: 
-FIX ACTION NAMES
-ADD PROP TYPES
-CLEAN CODE
-*/
-
 const ChatServer = require("./ChatServer"),
   http = require("http"),
   express = require("express"),

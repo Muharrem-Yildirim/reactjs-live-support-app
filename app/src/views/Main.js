@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import "../assets/main.scss";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { withChatContext } from "../ChatContext";
 
+import Button from "@material-ui/core/Button";
+
 import locale from "../locales/main";
 
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+
 
 class Main extends Component {
   constructor(props) {
@@ -61,40 +58,6 @@ class Main extends Component {
   render() {
     return (
       <div className="wrapper">
-        {this.props.messageBox != null && (
-          <Dialog
-            open={true}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {this.props.messageBox.title}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText
-                id="alert-dialog-description"
-                className="display-linebreak"
-              >
-                {this.props.messageBox.message}
-              </DialogContentText>
-            </DialogContent>
-            {this.props.messageBox.canClose && (
-              <DialogActions>
-                <Button
-                  color="primary"
-                  onClick={() => {
-                    this.props.dispatch({
-                      type: "MESSAGE_BOX",
-                      payload: { messageBox: null },
-                    });
-                  }}
-                >
-                  {locale.close}
-                </Button>
-              </DialogActions>
-            )}
-          </Dialog>
-        )}
         <div className="main">
           <h1 className="">{locale.welcome}</h1>
           <h4 className="">{locale.welcome_info}</h4>

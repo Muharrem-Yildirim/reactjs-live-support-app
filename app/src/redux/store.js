@@ -4,7 +4,7 @@ const initialState = {
   isSupporter: false,
   claimedTicket: null,
   isOnline: false,
-  messageBox: null, // { title: "error", message: "couldnt connect", canClose: false }
+  messageBox: null, // { title: "error", message: "bla bla", canClose: false }
   messageHistory: [],
   tickets: [],
 };
@@ -20,7 +20,7 @@ const reducer = (state = initialState, action) => {
       ...state,
       messageBox: action.payload.messageBox,
     };
-  } else if (action.type === "SET_MESSAGE_HISTORY") {
+  } else if (action.type === "MESSAGE_HISTORY") {
     return {
       ...state,
       messageHistory: action.payload.messageHistory,
@@ -30,12 +30,12 @@ const reducer = (state = initialState, action) => {
       ...state,
       messageHistory: [...state.messageHistory, action.payload.message],
     };
-  } else if (action.type === "SET_SUPPORTER_TICKETS") {
+  } else if (action.type === "TICKETS") {
     return {
       ...state,
       tickets: action.payload.tickets,
     };
-  } else if (action.type === "SET_CLAIMED_TICKET") {
+  } else if (action.type === "CLAIMED_TICKET") {
     return {
       ...state,
       claimedTicket: action.payload.claimedTicket,

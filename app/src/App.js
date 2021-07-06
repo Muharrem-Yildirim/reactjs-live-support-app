@@ -1,36 +1,42 @@
 import React from "react";
-import store from "./redux/store";
-import { Provider } from "react-redux";
-import ChatClient from "./ChatClient";
-import ChatContext from "./ChatContext";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+
+import { connect } from "react-redux";
+
 import Main from "./views/Main";
 import Chat from "./views/Chat";
 import Admin from "./views/Admin";
-import "./assets/app.scss";
+
 import TopBar from "./components/TopBar";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import locale from "./locales/main";
+import MessageBox from "./components/MessageBox";
 
 
-let chatClient = new ChatClient();
-chatClient.init(store, locale);
-global.ChatClient = chatClient;
+import "./assets/app.scss";
 
-document.documentElement.lang = locale.getLanguage();
+class App extends React.Component {
+  render() {
+    return (
 
-export default function App() {
-  return (
-    <Provider store={store}>
-      <ChatContext.Provider value={chatClient}>
-        <BrowserRouter>
-          <TopBar />
-          <Switch>
-            <Route exact path="/" component={Main} />
-            <Route exact sensitive path="/chat" component={Chat} />
-            <Route exact sensitive path="/admin" component={Admin} />
-          </Switch>
-        </BrowserRouter>
-      </ChatContext.Provider>
-    </Provider>
-  );
+      <BrowserRouter>
+        {this.props.messageBox && <MessageBox {...this.props.messageBox} />}
+
+        <TopBar />
+        <Switch>
+          <Route exact path="/" component={Main} />
+          <Route exact sensitive path="/chat" component={Chat} />
+          <Route exact sensitive path="/admin" component={Admin} />
+        </Switch>
+      </BrowserRouter>
+
+    )
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    messageBox: state.messageBox,
+  };
+};
+
+export default connect(mapStateToProps)(App);
+
