@@ -20,5 +20,5 @@
 
 - Clean Code.
 - Role management system.
-- <s>Authentication system for admin panel.</s>, turn it to JWT
+- <s>Authentication system for admin panel, turn it to JWT.</s>
 - <s>Language system.</s>
