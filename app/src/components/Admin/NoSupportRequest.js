@@ -1,5 +1,5 @@
 import React from 'react'
-import locale from "../locales/main";
+import locale from "../../locales/main";
 
 export default function NoSupportRequest() {
     return (
