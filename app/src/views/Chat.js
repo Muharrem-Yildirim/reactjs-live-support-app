@@ -1,20 +1,18 @@
 import React, { Component, createRef } from "react";
-import { connect } from "react-redux";
-import "../assets/chat.scss";
-import Moment from "moment";
-import { withChatContext } from "../ChatContext";
-import CircularProgress from '@material-ui/core/CircularProgress';
 
-import AutoLinkText from "react-autolink-text2";
-import { Grid, IconButton } from "@material-ui/core";
-import SendIcon from "@material-ui/icons/Send";
-
-import locale from "../locales/main";
+import {
+  Grid,
+  CircularProgress
+} from "@material-ui/core";
 import ChatBubble from "../components/ChatBubble";
 import ChatBottom from "../components/ChatBottom";
 
-
-const Utils = require("../utils");
+import locale from "../locales/main";
+import * as utils from "../utils";
+import { withChatContext } from "../ChatContext";
+import Moment from "moment";
+import { connect } from "react-redux";
+import "../assets/chat.scss";
 
 class Chat extends Component {
   constructor(props) {
@@ -27,12 +25,6 @@ class Chat extends Component {
     this.state = {
       message: "",
     };
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    // console.log(nextProps.isOnline);
-    // console.log(this.props.isOnline);
-    return true;
   }
 
   scrollToBottom = () => {
@@ -57,7 +49,7 @@ class Chat extends Component {
 
   onKeyDown = (e) => {
     if (e.key === "Enter") {
-      if (Utils.isEmptyOrSpaces(e.target.value)) return;
+      if (utils.isEmptyOrSpaces(e.target.value)) return;
       this.sendMessage();
     }
   };
@@ -75,7 +67,7 @@ class Chat extends Component {
   }
 
   onPressButton = (e) => {
-    if (Utils.isEmptyOrSpaces(this.messageInput.current.value)) return;
+    if (utils.isEmptyOrSpaces(this.messageInput.current.value)) return;
     this.sendMessage();
   };
 

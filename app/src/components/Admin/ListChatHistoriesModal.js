@@ -3,25 +3,23 @@ import {
     Dialog,
     DialogContent,
     DialogTitle,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    IconButton
 } from '@material-ui/core';
-import locale from "../../locales/main";
-import { withChatContext } from "../../ChatContext";
-import { connect } from 'react-redux';
-
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import axios from "../../axios";
-import IconButton from '@material-ui/core/IconButton';
-import * as utils from "../../utils";
-
 import LaunchIcon from '@material-ui/icons/Launch';
 import NoRowsFound from '../NoRowsFound';
 
+import axios from "../../axios";
+import * as utils from "../../utils";
+import locale from "../../locales/main";
+import { withChatContext } from "../../ChatContext";
+import { connect } from 'react-redux';
 
 
 class ListChatHistoriesModal extends Component {

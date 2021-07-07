@@ -1,31 +1,25 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import "../assets/admin.scss";
-import { withChatContext } from "../ChatContext";
 
 import {
   Grid,
   Button
-
 } from "@material-ui/core";
-import notificationMp3 from "../assets/notification.mp3";
 
 import Ticket from "../components/Admin/Ticket";
 import InfoModal from "../components/Admin/InfoModal";
-
-import locale from "../locales/main";
-
-import * as utils from "../utils";
 import LoginModal from "../components/Admin/LoginModal";
 import AddUserModal from "../components/Admin/AddUserModal";
 import ListChatHistoriesModal from "../components/Admin/ListChatHistoriesModal";
-import store from "../redux/store";
-import axios from "../axios";
 import ListUsersModal from "../components/Admin/ListUsersModal";
 
-/*
- ROOM NAME IS UNIQUE ROOM ID SO DON'T WORRY
-*/
+import locale from "../locales/main";
+import * as utils from "../utils";
+import { withChatContext } from "../ChatContext";
+import { connect } from "react-redux";
+
+import "../assets/admin.scss";
+import notificationMp3 from "../assets/notification.mp3";
+
 class Admin extends Component {
   constructor(props) {
     super(props);

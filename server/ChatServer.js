@@ -1,6 +1,6 @@
 const
   moment = require("moment"),
-  Utils = require("./utils"),
+  utils = require("./utils"),
   swig = require('swig'),
   fs = require('fs');
 
@@ -76,17 +76,17 @@ class ChatServer {
       socket.leave(socket.id);
 
       if (typeof socket.informationData !== "undefined") {
-        socket.informationData.fullName = Utils.isEmptyOrSpaces(
+        socket.informationData.fullName = utils.isEmptyOrSpaces(
           socket.informationData.fullName
         )
           ? "Unknown"
           : socket.informationData.fullName;
-        socket.informationData.email = Utils.isEmptyOrSpaces(
+        socket.informationData.email = utils.isEmptyOrSpaces(
           socket.informationData.email
         )
           ? "Unknown"
           : socket.informationData.email;
-        socket.informationData.message = Utils.isEmptyOrSpaces(
+        socket.informationData.message = utils.isEmptyOrSpaces(
           socket.informationData.message
         )
           ? "Unknown"
@@ -194,7 +194,7 @@ class ChatServer {
       messages: this._messageHistories.get(roomName)
     });
 
-    let fileName = "./chat-histories/" + moment().format("YYYY-MM-DD__HH_mm_ss") + "_" + Utils.makeid(10) + ".html";
+    let fileName = "./chat-histories/" + moment().format("YYYY-MM-DD__HH_mm_ss") + "_" + utils.makeid(10) + ".html";
     fs.writeFile(fileName, output, function (err) {
       if (err) {
         return console.log(err);
@@ -229,7 +229,7 @@ class ChatServer {
     socket.on("addUser", ({ username, password }) => {
       new userModel({
         username: username,
-        hash_password: Utils.hashPassword(password)
+        hash_password: utils.hashPassword(password)
       }).save();
     });
 

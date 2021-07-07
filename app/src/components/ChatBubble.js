@@ -1,7 +1,7 @@
 import React from 'react'
 
 import AutoLinkText from "react-autolink-text2";
-import { Grid, IconButton } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import locale from "../locales/main";
 
