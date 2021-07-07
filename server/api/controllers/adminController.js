@@ -21,7 +21,7 @@ const getChatHistories = async (req, res) => {
     }
     )).then(() => {
 
-      return res.json(newArr);
+      return res.json(newArr.reverse());
     });
   });
 
@@ -33,7 +33,12 @@ const getUsers = async (req, res) => {
 
 
 const deleteUser = async (req, res) => {
-  return res.json(await userModel.deleteOne({ _id: req.params?.id }));
+  let deletionId = req.params?.id;
+
+  if (req.user._id === deletionId) {
+    return res.status(400).json({ error: "You can't delete yourself." });
+  }
+  return res.json(await userModel.deleteOne({ _id: deletionId }));
 }
 
 

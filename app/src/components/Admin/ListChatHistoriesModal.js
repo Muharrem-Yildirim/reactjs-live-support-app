@@ -93,11 +93,14 @@ class ListChatHistoriesModal extends Component {
 
                                     {this.state.chatHistories.map((fileName, idx) => (
                                         <TableRow key={fileName}>
-                                            <TableCell align="right">{idx}</TableCell>
+                                            <TableCell align="right">{idx + 1}</TableCell>
                                             <TableCell align="right">{fileName}</TableCell>
                                             <TableCell align="right">
                                                 <IconButton size="small" onClick={() => {
-                                                    window.open("/chat-histories/" + fileName, "_blank")
+                                                    window.open(utils.getRuntime() === "dev"
+                                                        ? "http://localhost:2000/chat-histories/" + fileName
+                                                        : "/chat-histories/" + fileName
+                                                        , "_blank")
                                                 }}>
                                                     <LaunchIcon fontSize="small" />
                                                 </IconButton>
