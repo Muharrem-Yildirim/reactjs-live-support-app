@@ -18,8 +18,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import axios from "axios";
+import axios from "../../axios";
 import IconButton from '@material-ui/core/IconButton';
+import * as utils from "../../utils";
 
 import LaunchIcon from '@material-ui/icons/Launch';
 
@@ -56,7 +57,16 @@ class ListChatHistoriesModal extends Component {
     };
 
     componentDidMount() {
-        axios.get("http://localhost:2000/api/chat-histories").then(res => {
+        this.loadHistories();
+    }
+
+
+    loadHistories() {
+        axios.get(
+            utils.getRuntime() === "dev"
+                ? "http://localhost:2000/api/chat-histories"
+                : "/api/admin/chat-histories"
+        ).then(res => {
             this.setState((prevState) => {
                 return {
                     ...prevState,
@@ -70,7 +80,7 @@ class ListChatHistoriesModal extends Component {
         return (
             <Dialog
                 open
-                onClose={this.props.toggleAddUser}
+                onClose={this.props.toggleListChatHistories}
                 maxWidth="xs"
                 fullWidth
             >
@@ -78,11 +88,11 @@ class ListChatHistoriesModal extends Component {
                 <DialogTitle>{locale.add_user}</DialogTitle>
                 <DialogContent>
                     <TableContainer component={Paper}>
-                        <Table aria-label="simple table">
+                        <Table>
                             <TableHead>
                                 <TableRow>
                                     <TableCell>#</TableCell>
-                                    <TableCell align="right">File Name</TableCell>
+                                    <TableCell align="right">{locale.file_name}</TableCell>
                                     <TableCell align="right"></TableCell>
                                 </TableRow>
                             </TableHead>
@@ -92,8 +102,7 @@ class ListChatHistoriesModal extends Component {
                                         <TableCell align="right">{idx}</TableCell>
                                         <TableCell align="right">{fileName}</TableCell>
                                         <TableCell align="right"><IconButton onClick={() => {
-
-                                            // open in new tab
+                                            window.open("/chat-histories/" + fileName, "_blank")
                                         }}>
                                             <LaunchIcon />
                                         </IconButton></TableCell>
@@ -103,11 +112,6 @@ class ListChatHistoriesModal extends Component {
                         </Table>
                     </TableContainer>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.onClickAdd} color="primary">
-                        {locale.add}
-                    </Button>
-                </DialogActions>
             </Dialog>
         );
     }

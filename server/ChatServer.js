@@ -5,7 +5,8 @@ const
   fs = require('fs');
 
 
-const userModel = require("./models/userModel")
+const userModel = require("./api/models/userModel"),
+  authController = require("./api/controllers/authController");
 
 class ChatServer {
   constructor() {
@@ -53,21 +54,20 @@ class ChatServer {
       }
 
       try {
-        let user = await userModel.findOne(
-          {
-            username: socket.handshake?.query?.adminUsername
-          },
-        );
+        let token = socket.handshake?.query?.jwt;
 
-        if (user && user.comparePassword(socket.handshake?.query?.adminPassword)) {
-          socket.isSupporter = true;
-          socket.adminUsername = socket.handshake?.query?.adminUsername;
+        authController.verifyJwt(token)
+          .then((decode) => {
+            socket.isSupporter = true;
+            socket.decode = decode;
+            socket.adminUsername = decode.username;
 
-          next();
-        } else next(new Error("Authentication error"));
+            next();
+          })
+
       }
       catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     });
 

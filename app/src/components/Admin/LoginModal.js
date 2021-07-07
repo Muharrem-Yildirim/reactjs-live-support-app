@@ -11,6 +11,9 @@ import {
 import locale from "../../locales/main";
 import { withChatContext } from "../../ChatContext";
 import { connect } from 'react-redux';
+import axios from '../../axios';
+import * as utils from '../../utils';
+import store from '../../redux/store';
 
 
 class LoginModal extends Component {
@@ -24,19 +27,20 @@ class LoginModal extends Component {
     }
 
     componentDidMount() {
-        if (window.localStorage.getItem("autologin")) {
-            this.setState({
-                username: window.localStorage.getItem("username"),
-                password: window.localStorage.getItem("password")
-            }, () => {
-                this.connectAsAdmin();
-            })
+        // if (window.localStorage.getItem("autologin")) {
+        //     this.setState({
+        //         username: window.localStorage.getItem("username"),
+        //         password: window.localStorage.getItem("password")
+        //     }, () => {
+        //         this.connectAsAdmin();
+        //     })
 
 
-        }
+        // }
     }
 
     connectAsAdmin = () => {
+
         this.props.dispatch({
             type: "MESSAGE_BOX",
             payload: {
@@ -44,26 +48,79 @@ class LoginModal extends Component {
             },
         });
 
-        this.props.chatClient.startChatAdmin(
-            this.state.username,
-            this.state.password
-        ).then((isConnected) => {
-            if (isConnected) {
-                this.props.dispatch({
-                    type: "MESSAGE_BOX",
-                    payload: {
-                        messageBox: null,
-                    },
-                });
+        let apiUrl = utils.getRuntime() === "dev"
+            ? "http://localhost:2000/api/auth/login"
+            : "/api/chat-histories";
 
-                this.props.dispatch({
-                    type: "ADMIN_LOGGEDIN",
-                    payload: {
-                        isLoggedin: true,
+        axios.post(apiUrl, {
+            username: this.state.username,
+            password: this.state.password
+        }).then(res => {
+            localStorage.setItem("TOKEN", res.data.token);
+
+            this.props.chatClient.startChatAdmin(
+                res.data.token
+            ).then((isConnected) => {
+                if (isConnected) {
+                    this.props.dispatch({
+                        type: "MESSAGE_BOX",
+                        payload: {
+                            messageBox: null,
+                        },
+                    });
+
+                    this.props.dispatch({
+                        type: "ADMIN_LOGGEDIN",
+                        payload: {
+                            isLoggedin: true,
+                        },
+                    });
+                }
+            });
+        }).catch(err => {
+            store.dispatch({
+                type: "MESSAGE_BOX",
+                payload: {
+                    messageBox: {
+                        title: locale.no_permission,
+                        message: locale.formatString(locale.couldnt_connect_wmessage, err),
+                        canClose: true,
                     },
-                });
-            }
-        });
+                },
+            });
+        })
+
+        // store.dispatch({
+        //     type: "MESSAGE_BOX",
+        //     payload: {
+        //         messageBox: {
+        //             title: locale.no_permission,
+        //             message: locale.formatString(locale.couldnt_connect_wmessage, { message: m }),
+        //             canClose: true,
+        //         },
+        //     },
+        // });
+
+        // this.props.chatClient.startChatAdmin(
+        //     this.state.username,
+        //     this.state.password
+        // ).then((isConnected) => {
+        //     if (isConnected) {
+        //         this.props.dispatch({
+        //             type: "MESSAGE_BOX",
+        //             payload: {
+        //                 messageBox: null,
+        //             },
+        //         });
+
+        //         this.props.dispatch({
+        //             type: "ADMIN_LOGGEDIN",
+        //             payload: {
+        //                 isLoggedin: true,
+        //             },
+        //         });
+        //     }
+        // });
     }
 
     onClickLogin = () => {

@@ -112,11 +112,12 @@ class ChatClient {
     });
   }
 
-  startChatAdmin(username, password) {
+  startChatAdmin(token) {
     return new Promise((resolve, reject) => {
       if (this._socket) this._socket.close();
 
-      this.createSocket({ admin: true, adminUsername: username, adminPassword: password });
+      // this.createSocket({ admin: true, adminUsername: username, adminPassword: password });
+      this.createSocket({ admin: true, jwt: token });
 
       store.dispatch({
         type: "IS_SUPPORTER",

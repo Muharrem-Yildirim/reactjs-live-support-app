@@ -15,10 +15,12 @@ import InfoModal from "../components/Admin/InfoModal";
 
 import locale from "../locales/main";
 
-import * as Utils from "../utils";
+import * as utils from "../utils";
 import LoginModal from "../components/Admin/LoginModal";
 import AddUserModal from "../components/Admin/AddUserModal";
 import ListChatHistoriesModal from "../components/Admin/ListChatHistoriesModal";
+import store from "../redux/store";
+import axios from "../axios";
 
 /*
  ROOM NAME IS UNIQUE ROOM ID SO DON'T WORRY
@@ -53,7 +55,7 @@ class Admin extends Component {
 
   onKeyDown = (e) => {
     if (e.key === "Enter") {
-      if (Utils.isEmptyOrSpaces(e.target.value)) return;
+      if (utils.isEmptyOrSpaces(e.target.value)) return;
       this.sendMessage();
     }
   };
@@ -88,13 +90,40 @@ class Admin extends Component {
     });
   }
 
+  toggleListChatHistories = (e) => {
+    this.setState((prevState) => {
+      return { ...prevState, listChatHistories: !prevState.listChatHistories }
+    });
+  }
+
+  componentDidMount() {
+    // let apiUrl = utils.getRuntime() === "dev"
+    //   ? "http://localhost:2000/api/chat-histories"
+    //   : "/api/chat-histories";
+
+    //   axios.get()
+
+    // store.dispatch({
+    //   type: "MESSAGE_BOX",
+    //   payload: {
+    //     messageBox: {
+    //       title: locale.no_permission,
+    //       message: locale.formatString(locale.couldnt_connect_wmessage, { message: m }),
+    //       canClose: true,
+    //     },
+    //   },
+    // });
+  }
+
   render() {
     return (
       <React.Fragment>
         {this.state.addUserModal && <AddUserModal
           toggleAddUser={this.toggleAddUser} />}
 
-        {this.state.listChatHistories && <ListChatHistoriesModal />}
+        {this.state.listChatHistories && <ListChatHistoriesModal
+          toggleListChatHistories={this.toggleListChatHistories}
+        />}
 
         {!this.props.isLoggedin && <LoginModal connectAsAdmin={this.connectAsAdmin} />}
 
@@ -120,10 +149,13 @@ class Admin extends Component {
             )}
 
             {this.props.tickets.map((element, idx) => {
-              return <Ticket element={element} key={idx} idx={idx} onClickShowInfo={this.onClickShowInfo} onClickClaimTicket={this.onClickClaimTicket} onClickCloseTicket={this.onClickCloseTicket} />
-            })}
-            {this.props.tickets.map((element, idx) => {
-              return <Ticket element={element} key={idx} idx={idx} onClickShowInfo={this.onClickShowInfo} onClickClaimTicket={this.onClickClaimTicket} onClickCloseTicket={this.onClickCloseTicket} />
+              return <Ticket
+                element={element}
+                key={idx}
+                idx={idx}
+                onClickShowInfo={this.onClickShowInfo}
+                onClickClaimTicket={this.onClickClaimTicket}
+                onClickCloseTicket={this.onClickCloseTicket} />
             })}
 
           </Grid>
@@ -140,21 +172,10 @@ class Admin extends Component {
             <Button variant="contained">{locale.list_user}</Button>
             <Button variant="contained"
 
-              onClick={() => {
-                this.setState(
-                  {
-                    ...this.state,
-                    listChatHistories: true,
-                  }
-                )
-              }}>{locale.chat_logs}</Button>
+              onClick={this.toggleListChatHistories}>{locale.chat_logs}</Button>
 
           </div>
-
-
         </Grid>
-
-
       </React.Fragment>
     );
   }
