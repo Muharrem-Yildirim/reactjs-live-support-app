@@ -1,6 +1,6 @@
 # reactjs-live-support-app
 
-<p>Simple live support app made with React.js, socket.io, mongoose and Node.js.</p>
+<p>Simple live support app made with React.js, socket.io, MongoDB and Node.js.</p>
 
 <table>
   <tr>
