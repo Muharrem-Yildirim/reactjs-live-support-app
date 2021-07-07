@@ -1,7 +1,8 @@
 const glob = require("glob"),
   fs = require("fs"),
   path = require("path"),
-  userModel = require("../models/userModel");
+  userModel = require("../models/userModel"),
+  bcrypt = require("bcrypt");
 
 
 const getChatHistories = async (req, res) => {
@@ -31,7 +32,6 @@ const getUsers = async (req, res) => {
   return res.json(await userModel.find().select('username _id created_at'));
 }
 
-
 const deleteUser = async (req, res) => {
   let deletionId = req.params?.id;
 
@@ -41,9 +41,22 @@ const deleteUser = async (req, res) => {
   return res.json(await userModel.deleteOne({ _id: deletionId }));
 }
 
+const addUser = async (req, res) => {
+  let newUser = await userModel(
+    {
+      username: req?.body?.username,
+      hash_password: bcrypt.hashSync(req?.body?.password, 10)
+    }
+  );
+
+  newUser.save();
+
+  return res.json(newUser);
+}
 
 module.exports = {
   getChatHistories,
   getUsers,
-  deleteUser
+  deleteUser,
+  addUser
 };

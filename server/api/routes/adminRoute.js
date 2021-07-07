@@ -1,5 +1,5 @@
 const router = require("express").Router(),
-  { getChatHistories, getUsers, deleteUser } = require("../controllers/adminController"),
+  { getChatHistories, getUsers, deleteUser, addUser } = require("../controllers/adminController"),
   rateLimit = require("express-rate-limit");
 
 router.get(
@@ -27,6 +27,15 @@ router.delete(
   //   max: 5,
   // }),
   deleteUser
+);
+
+router.post(
+  "/users",
+  // rateLimit({
+  //   windowMs: 60 * 1000, // 1 minutes
+  //   max: 5,
+  // }),
+  addUser
 );
 
 module.exports = router;

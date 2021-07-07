@@ -59,13 +59,6 @@ const register = (req, res) => {
 };
 
 const verifyJwtMiddleware = (req, res, next) => {
-
-  // req.user = {
-  //   username: "test"
-  // }
-
-  // next();
-  // return;
   if (
     req.headers &&
     req.headers.authorization &&

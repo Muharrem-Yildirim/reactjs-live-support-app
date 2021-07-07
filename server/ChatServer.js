@@ -222,17 +222,6 @@ class ChatServer {
       this.syncTickets();
     });
 
-
-    /*
-      REMOVE THIS AND TURN IT TO API
-    */
-    socket.on("addUser", ({ username, password }) => {
-      new userModel({
-        username: username,
-        hash_password: utils.hashPassword(password)
-      }).save();
-    });
-
     socket.on("claimTicket", (roomName) => {
       socket.leave(socket.room);
       socket.join(roomName);

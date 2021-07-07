@@ -7,10 +7,12 @@ import {
     Button,
     TextField
 } from '@material-ui/core';
+
 import locale from "../../locales/main";
 import { withChatContext } from "../../ChatContext";
+import axios from "../../axios";
 import { connect } from 'react-redux';
-
+import * as utils from "../../utils";
 
 class AddUserModal extends Component {
     constructor(props) {
@@ -23,11 +25,16 @@ class AddUserModal extends Component {
     }
 
     onClickAdd = () => {
-        /*
-            REMOVE THIS AND TURN IT TO API
-        */
-        this.props.chatClient._socket.emit("addUser", { username: this.state.username, password: this.state.password });
-        this.props.toggleAddUser();
+        axios.post(
+            utils.getRuntime() === "dev"
+                ? "http://localhost:2000/api/admin/users"
+                : "/api/admin/users"
+            , {
+                username: this.state.username,
+                password: this.state.password
+            }).then(res => {
+                this.props.toggleAddUser();
+            });
     }
 
     onInputChange = (e) => {
