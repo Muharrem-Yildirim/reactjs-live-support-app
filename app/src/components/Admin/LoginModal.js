@@ -4,7 +4,6 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    withMobileDialog,
     Button,
     TextField
 } from '@material-ui/core';
@@ -27,26 +26,40 @@ class LoginModal extends Component {
     }
 
     componentDidMount() {
-        // if (window.localStorage.getItem("autologin")) {
-        //     this.setState({
-        //         username: window.localStorage.getItem("username"),
-        //         password: window.localStorage.getItem("password")
-        //     }, () => {
-        //         this.connectAsAdmin();
-        //     })
+        let token = localStorage.getItem("TOKEN");
 
+        if (token) {
+            this.props.dispatch({
+                type: "MESSAGE_BOX",
+                payload: {
+                    messageBox: { title: locale.connecting, message: locale.please_wait },
+                },
+            });
 
-        // }
+            this.props.chatClient.startChatAdmin(
+                token
+            ).then((isConnected) => {
+                if (isConnected) {
+                    this.props.dispatch({
+                        type: "MESSAGE_BOX",
+                        payload: {
+                            messageBox: null,
+                        },
+                    });
+
+                    this.props.dispatch({
+                        type: "ADMIN_LOGGEDIN",
+                        payload: {
+                            isLoggedin: true,
+                        },
+                    });
+                }
+            });
+        }
     }
 
     connectAsAdmin = () => {
 
-        this.props.dispatch({
-            type: "MESSAGE_BOX",
-            payload: {
-                messageBox: { title: locale.connecting, message: locale.please_wait },
-            },
-        });
 
         let apiUrl = utils.getRuntime() === "dev"
             ? "http://localhost:2000/api/auth/login"
@@ -89,38 +102,6 @@ class LoginModal extends Component {
                 },
             });
         })
-
-        // store.dispatch({
-        //     type: "MESSAGE_BOX",
-        //     payload: {
-        //         messageBox: {
-        //             title: locale.no_permission,
-        //             message: locale.formatString(locale.couldnt_connect_wmessage, { message: m }),
-        //             canClose: true,
-        //         },
-        //     },
-        // });
-
-        // this.props.chatClient.startChatAdmin(
-        //     this.state.username,
-        //     this.state.password
-        // ).then((isConnected) => {
-        //     if (isConnected) {
-        //         this.props.dispatch({
-        //             type: "MESSAGE_BOX",
-        //             payload: {
-        //                 messageBox: null,
-        //             },
-        //         });
-
-        //         this.props.dispatch({
-        //             type: "ADMIN_LOGGEDIN",
-        //             payload: {
-        //                 isLoggedin: true,
-        //             },
-        //         });
-        //     }
-        // });
     }
 
     onClickLogin = () => {

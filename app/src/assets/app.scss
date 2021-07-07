@@ -10,6 +10,15 @@ body {
   white-space: pre-line;
 }
 
+.no-rows-found {
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-family: "Open Sans";
+}
+
 .toolbar {
   background: rgb(236, 164, 30);
 

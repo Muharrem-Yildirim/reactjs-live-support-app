@@ -23,6 +23,7 @@ import IconButton from '@material-ui/core/IconButton';
 import * as utils from "../../utils";
 
 import LaunchIcon from '@material-ui/icons/Launch';
+import NoRowsFound from '../NoRowsFound';
 
 
 
@@ -64,7 +65,7 @@ class ListChatHistoriesModal extends Component {
     loadHistories() {
         axios.get(
             utils.getRuntime() === "dev"
-                ? "http://localhost:2000/api/chat-histories"
+                ? "http://localhost:2000/api/admin/chat-histories"
                 : "/api/admin/chat-histories"
         ).then(res => {
             this.setState((prevState) => {
@@ -87,30 +88,39 @@ class ListChatHistoriesModal extends Component {
 
                 <DialogTitle>{locale.add_user}</DialogTitle>
                 <DialogContent>
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>#</TableCell>
-                                    <TableCell align="right">{locale.file_name}</TableCell>
-                                    <TableCell align="right"></TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {this.state.chatHistories.map((fileName, idx) => (
-                                    <TableRow key={fileName}>
-                                        <TableCell align="right">{idx}</TableCell>
-                                        <TableCell align="right">{fileName}</TableCell>
-                                        <TableCell align="right"><IconButton onClick={() => {
-                                            window.open("/chat-histories/" + fileName, "_blank")
-                                        }}>
-                                            <LaunchIcon />
-                                        </IconButton></TableCell>
+                    <Paper>
+
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>#</TableCell>
+                                        <TableCell align="right">{locale.file_name}</TableCell>
+                                        <TableCell align="right"></TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+                                <TableBody>
+
+                                    {this.state.chatHistories.map((fileName, idx) => (
+                                        <TableRow key={fileName}>
+                                            <TableCell align="right">{idx}</TableCell>
+                                            <TableCell align="right">{fileName}</TableCell>
+                                            <TableCell align="right"><IconButton onClick={() => {
+                                                window.open("/chat-histories/" + fileName, "_blank")
+                                            }}>
+                                                <LaunchIcon />
+                                            </IconButton></TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+
+                            </Table>
+
+                        </TableContainer>
+                        {this.state.chatHistories.length === 0 &&
+                            <NoRowsFound />
+                        }
+                    </Paper>
                 </DialogContent>
             </Dialog>
         );

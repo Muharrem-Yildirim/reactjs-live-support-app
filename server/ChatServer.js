@@ -49,26 +49,19 @@ class ChatServer {
 
           socket.informationData = socket.handshake.query.informationData;
         }
-
-        return next();
       }
 
-      try {
-        let token = socket.handshake?.query?.jwt;
 
-        authController.verifyJwt(token)
-          .then((decode) => {
-            socket.isSupporter = true;
-            socket.decode = decode;
-            socket.adminUsername = decode.username;
+      let token = socket.handshake?.query?.jwt;
 
-            next();
-          })
+      authController.verifyJwt(token)
+        .then((decode) => {
+          socket.isSupporter = true;
+          socket.decode = decode;
+          socket.adminUsername = decode.username;
 
-      }
-      catch (e) {
-        // console.log(e);
-      }
+          next();
+        }).catch((err) => next(new Error("Authcention error")));
     });
 
     this.handleUsers();
