@@ -23,6 +23,9 @@ class AddUserModal extends Component {
     }
 
     onClickAdd = () => {
+        /*
+            REMOVE THIS AND TURN IT TO API
+        */
         this.props.chatClient._socket.emit("addUser", { username: this.state.username, password: this.state.password });
         this.props.toggleAddUser();
     }
