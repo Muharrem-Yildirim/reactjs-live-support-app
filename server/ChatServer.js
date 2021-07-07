@@ -165,6 +165,8 @@ class ChatServer {
             } (${socket.room})`
           );
 
+        if (socket.room === "supporters") return;
+
         if (!socket.isSupporter) this._lastRoomId--;
 
         this.closeTicket(socket.room);

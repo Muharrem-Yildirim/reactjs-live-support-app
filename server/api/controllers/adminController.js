@@ -26,7 +26,13 @@ const getUsers = async (req, res) => {
 }
 
 
+const deleteUser = async (req, res) => {
+  return res.json(await userModel.deleteOne({ _id: req.params?.id }));
+}
+
+
 module.exports = {
   getChatHistories,
-  getUsers
+  getUsers,
+  deleteUser
 };

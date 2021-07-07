@@ -48,6 +48,7 @@ let strings = new LocalizedStrings({
         file_name: "File Name",
         chat_history: "Chat History",
         no_rows_found: "No rows found.",
+        users_list: "Users List",
     },
     tr: {
         connecting: "Bağlanılıyor..",
@@ -96,6 +97,7 @@ let strings = new LocalizedStrings({
         file_name: "Dosya Adı",
         chat_history: "Sohbet Geçmişi",
         no_rows_found: "Hiç kayıt bulunamadı.",
+        users_list: "Kullanıcı Listesi",
     }
 });
 

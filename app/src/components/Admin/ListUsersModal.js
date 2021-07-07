@@ -25,15 +25,20 @@ import * as utils from "../../utils";
 import LaunchIcon from '@material-ui/icons/Launch';
 import NoRowsFound from '../NoRowsFound';
 
+import CloseIcon from '@material-ui/icons/Close';
 
-
-class ListChatHistoriesModal extends Component {
+class ListUsersModal extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            chatHistories: []
+            usersList: []
         }
+    }
+
+    onClickAdd = () => {
+        this.props.chatClient._socket.emit("addUser", { username: this.state.username, password: this.state.password });
+        this.props.toggleAddUser();
     }
 
     onInputChange = (e) => {
@@ -51,20 +56,30 @@ class ListChatHistoriesModal extends Component {
     };
 
     componentDidMount() {
-        this.loadHistories();
+        this.loadUsers();
+    }
+
+    deleteUser = (userId) => {
+        axios.delete(
+            utils.getRuntime() === "dev"
+                ? `http://localhost:2000/api/admin/users/${userId}`
+                : `/api/admin/users/${userId}`
+        ).then(res => {
+            this.loadUsers();
+        });
     }
 
 
-    loadHistories() {
+    loadUsers = () => {
         axios.get(
             utils.getRuntime() === "dev"
-                ? "http://localhost:2000/api/admin/chat-histories"
-                : "/api/admin/chat-histories"
+                ? "http://localhost:2000/api/admin/users"
+                : "/api/admin/users"
         ).then(res => {
             this.setState((prevState) => {
                 return {
                     ...prevState,
-                    chatHistories: res.data
+                    usersList: res.data
                 }
             })
         });
@@ -74,12 +89,12 @@ class ListChatHistoriesModal extends Component {
         return (
             <Dialog
                 open
-                onClose={this.props.toggleListChatHistories}
+                onClose={this.props.toggleListUsers}
                 maxWidth="xs"
                 fullWidth
             >
 
-                <DialogTitle>{locale.add_user}</DialogTitle>
+                <DialogTitle>{locale.users_list}</DialogTitle>
                 <DialogContent>
                     <Paper>
 
@@ -88,21 +103,21 @@ class ListChatHistoriesModal extends Component {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>#</TableCell>
-                                        <TableCell align="right">{locale.file_name}</TableCell>
+                                        <TableCell align="right">{locale.username}</TableCell>
                                         <TableCell align="right"></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
 
-                                    {this.state.chatHistories.map((fileName, idx) => (
-                                        <TableRow key={fileName}>
-                                            <TableCell align="right">{idx}</TableCell>
-                                            <TableCell align="right">{fileName}</TableCell>
+                                    {this.state.usersList.map((user, idx) => (
+                                        <TableRow key={user._id}>
+                                            <TableCell align="right">{idx + 1}</TableCell>
+                                            <TableCell align="right">{user.username}</TableCell>
                                             <TableCell align="right">
                                                 <IconButton size="small" onClick={() => {
-                                                    window.open("/chat-histories/" + fileName, "_blank")
+                                                    this.deleteUser(user._id);
                                                 }}>
-                                                    <LaunchIcon fontSize="small" />
+                                                    <CloseIcon style={{ color: "red" }} fontSize="small" />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
@@ -112,7 +127,7 @@ class ListChatHistoriesModal extends Component {
                             </Table>
 
                         </TableContainer>
-                        {this.state.chatHistories.length === 0 &&
+                        {this.state.usersList.length === 0 &&
                             <NoRowsFound />
                         }
                     </Paper>
@@ -132,4 +147,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default withChatContext(connect(mapStateToProps)(ListChatHistoriesModal));
+export default withChatContext(connect(mapStateToProps)(ListUsersModal));

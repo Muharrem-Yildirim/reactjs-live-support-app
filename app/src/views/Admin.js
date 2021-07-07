@@ -21,6 +21,7 @@ import AddUserModal from "../components/Admin/AddUserModal";
 import ListChatHistoriesModal from "../components/Admin/ListChatHistoriesModal";
 import store from "../redux/store";
 import axios from "../axios";
+import ListUsersModal from "../components/Admin/ListUsersModal";
 
 /*
  ROOM NAME IS UNIQUE ROOM ID SO DON'T WORRY
@@ -33,6 +34,7 @@ class Admin extends Component {
       showTicketInfo: null,
       addUserModal: false,
       listChatHistories: false,
+      listUsers: false,
     };
 
     this.notificationAudio = new Audio(notificationMp3);
@@ -96,6 +98,12 @@ class Admin extends Component {
     });
   }
 
+  toggleListUsers = (e) => {
+    this.setState((prevState) => {
+      return { ...prevState, listUsers: !prevState.listUsers }
+    });
+  }
+
   componentDidMount() {
     // let apiUrl = utils.getRuntime() === "dev"
     //   ? "http://localhost:2000/api/chat-histories"
@@ -123,6 +131,11 @@ class Admin extends Component {
 
         {this.state.listChatHistories && <ListChatHistoriesModal
           toggleListChatHistories={this.toggleListChatHistories}
+        />}
+
+
+        {this.state.listUsers && <ListUsersModal
+          toggleListUsers={this.toggleListUsers}
         />}
 
         {!this.props.isLoggedin && <LoginModal connectAsAdmin={this.connectAsAdmin} />}
@@ -161,15 +174,10 @@ class Admin extends Component {
           </Grid>
           <div className="admin-bottom">
             <Button variant="contained" toggleAddUser={this.toggleAddUser}
-              onClick={() => {
-                this.setState(
-                  {
-                    ...this.state,
-                    addUserModal: true,
-                  }
-                )
-              }}>{locale.add_user}</Button>
-            <Button variant="contained">{locale.list_user}</Button>
+              onClick={this.toggleAddUser}>{locale.add_user}</Button>
+            <Button variant="contained"
+              onClick={this.toggleListUsers}
+            >{locale.list_user}</Button>
             <Button variant="contained"
 
               onClick={this.toggleListChatHistories}>{locale.chat_logs}</Button>
