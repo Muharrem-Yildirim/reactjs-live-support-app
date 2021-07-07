@@ -1,9 +1,15 @@
 const glob = require("glob"),
+  fs = require("fs"),
+  path = require("path"),
   userModel = require("../models/userModel");
 
 
 const getChatHistories = async (req, res) => {
-  await glob(__dirname + '/chat-histories/*.html', {}, async (err, files) => {
+  if (!fs.existsSync(__dirname + '/../../chat-histories')) {
+    fs.mkdirSync(__dirname + '/../../chat-histories');
+  }
+
+  await glob(__dirname + '/../../chat-histories/*.html', {}, async (err, files) => {
 
     let newArr = [];
 

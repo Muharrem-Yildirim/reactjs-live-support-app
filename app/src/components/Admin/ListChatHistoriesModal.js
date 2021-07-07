@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import {
     Dialog,
-    DialogActions,
     DialogContent,
     DialogTitle,
-    Button,
-    TextField
 } from '@material-ui/core';
 import locale from "../../locales/main";
 import { withChatContext } from "../../ChatContext";
@@ -79,7 +76,7 @@ class ListChatHistoriesModal extends Component {
                 fullWidth
             >
 
-                <DialogTitle>{locale.add_user}</DialogTitle>
+                <DialogTitle>{locale.chat_histories}</DialogTitle>
                 <DialogContent>
                     <Paper>
 

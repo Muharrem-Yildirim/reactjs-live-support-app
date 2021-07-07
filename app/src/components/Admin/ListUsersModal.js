@@ -115,7 +115,9 @@ class ListUsersModal extends Component {
                                             <TableCell align="right">{user.username}</TableCell>
                                             <TableCell align="right">
                                                 <IconButton size="small" onClick={() => {
-                                                    this.deleteUser(user._id);
+                                                    if (window.confirm(locale.are_you_sure_to_delete)) {
+                                                        this.deleteUser(user._id);
+                                                    }
                                                 }}>
                                                     <CloseIcon style={{ color: "red" }} fontSize="small" />
                                                 </IconButton>

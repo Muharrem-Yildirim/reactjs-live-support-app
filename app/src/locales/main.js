@@ -47,8 +47,10 @@ let strings = new LocalizedStrings({
         management: "Management",
         file_name: "File Name",
         chat_history: "Chat History",
+        chat_histories: "Chat Histories",
         no_rows_found: "No rows found.",
         users_list: "Users List",
+        are_you_sure_to_delete: "Are you sure to delete?",
     },
     tr: {
         connecting: "Bağlanılıyor..",
@@ -96,8 +98,10 @@ let strings = new LocalizedStrings({
         management: "Yönetim",
         file_name: "Dosya Adı",
         chat_history: "Sohbet Geçmişi",
+        chat_histories: "Sohbet Geçmişleri",
         no_rows_found: "Hiç kayıt bulunamadı.",
         users_list: "Kullanıcı Listesi",
+        are_you_sure_to_delete: "Silmek istediğinizden emin misiniz?",
     }
 });
 

@@ -49,6 +49,8 @@ class ChatServer {
 
           socket.informationData = socket.handshake.query.informationData;
         }
+
+        return next();
       }
 
 
@@ -185,7 +187,7 @@ class ChatServer {
         time: moment(new Date()).format("HH:mm"),
       });
 
-    var template = swig.compileFile('./other/chat_history.html');
+    var template = swig.compileFile('./templates/chat_history.html');
     var output = template({
       customer: { ...this._io.sockets.adapter.rooms.get(roomName)?.customer },
       supporter: { ...this._io.sockets.adapter.rooms.get(roomName)?.supporter },
