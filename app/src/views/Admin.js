@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 
 import "../assets/admin.scss";
 import notificationMp3 from "../assets/notification.mp3";
+import NoSupportRequest from "../components/Admin/NoSupportRequest";
 
 class Admin extends Component {
   constructor(props) {
@@ -98,25 +99,6 @@ class Admin extends Component {
     });
   }
 
-  componentDidMount() {
-    // let apiUrl = utils.getRuntime() === "dev"
-    //   ? "http://localhost:2000/api/chat-histories"
-    //   : "/api/chat-histories";
-
-    //   axios.get()
-
-    // store.dispatch({
-    //   type: "MESSAGE_BOX",
-    //   payload: {
-    //     messageBox: {
-    //       title: locale.no_permission,
-    //       message: locale.formatString(locale.couldnt_connect_wmessage, { message: m }),
-    //       canClose: true,
-    //     },
-    //   },
-    // });
-  }
-
   render() {
     return (
       <React.Fragment>
@@ -140,19 +122,7 @@ class Admin extends Component {
         <Grid container className="admin-container">
           <Grid container className="chats">
             {this.props.tickets.length === 0 && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                  marginTop: 10,
-                  fontFamily: "Open Sans",
-                  fontWeight: "bold",
-                  padding: 10,
-                }}
-              >
-                {locale.no_support_request}
-              </div>
+              <NoSupportRequest />
             )}
 
             {this.props.tickets.map((element, idx) => {
