@@ -137,7 +137,7 @@ class Admin extends Component {
 
           </Grid>
           <div className="admin-bottom">
-            <Button variant="contained" toggleAddUser={this.toggleAddUser}
+            <Button variant="contained"
               onClick={this.toggleAddUser}>{locale.add_user}</Button>
             <Button variant="contained"
               onClick={this.toggleListUsers}
