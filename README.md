@@ -17,7 +17,7 @@
   </tr>
   <tr>
     <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/8.png?raw=true"  width = "100%"></td>
-    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/9.png?raw=true"  width = "100%"></td>
+    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/9.jpg?raw=true"  width = "100%"></td>
   </tr>
 </table>
 
