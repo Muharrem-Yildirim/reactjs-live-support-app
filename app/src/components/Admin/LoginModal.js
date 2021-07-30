@@ -63,13 +63,15 @@ class LoginModal extends Component {
 
         let apiUrl = utils.getRuntime() === "dev"
             ? "http://localhost:2000/api/auth/login"
-            : "/api/chat-histories";
+            : "/api/auth/login";
 
         axios.post(apiUrl, {
             username: this.state.username,
             password: this.state.password
         }).then(res => {
             localStorage.setItem("TOKEN", res.data.token);
+
+            window.location = window.location;
 
             this.props.chatClient.startChatAdmin(
                 res.data.token

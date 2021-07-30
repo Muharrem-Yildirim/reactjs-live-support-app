@@ -1,8 +1,16 @@
+'use strict';
+
+import Chat from "./views/Chat";
+
+
 const
   socket = require("socket.io-client");
 
 let store;
 let locale;
+
+
+
 class ChatClient {
   init(_store, _locale) {
     store = _store;
@@ -252,4 +260,4 @@ class ChatClient {
   }
 }
 
-module.exports = ChatClient;
+export default ChatClient;

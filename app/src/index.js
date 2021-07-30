@@ -3,9 +3,9 @@ import App from "./App";
 import { Provider } from "react-redux";
 import ChatContext from "./ChatContext";
 import locale from "./locales/main";
+import store from "./redux/store";
 import ChatClient from "./ChatClient";
 
-import store from "./redux/store";
 let chatClient = new ChatClient();
 document.documentElement.lang = locale.getLanguage();
 

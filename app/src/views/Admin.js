@@ -117,7 +117,7 @@ class Admin extends Component {
         {!this.props.isLoggedin && <LoginModal connectAsAdmin={this.connectAsAdmin} />}
 
         {this.state.showTicketInfo != null && (
-          <InfoModal {... this.props.tickets[this.state.showTicketInfo].informationData} onCloseTicketInfo={this.onCloseTicketInfo123} />
+          <InfoModal {... this.props.tickets[this.state.showTicketInfo].informationData} onCloseTicketInfo={this.onCloseTicketInfo} />
         )}
         <Grid container className="admin-container">
           <Grid container className="chats">
