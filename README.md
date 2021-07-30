@@ -4,15 +4,19 @@
 
 <table>
   <tr>
-    <td><img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/screenshot_1.png?raw=true"  width = "100%"></td>
-    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/screenshot_2.png?raw=true"  width = "100%"></td>
+    <td><img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/1.png?raw=true"  width = "100%"></td>
+    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/2.png?raw=true"  width = "100%"></td>
    </tr> 
    <tr>
-    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/screenshot_3.png?raw=true"  width = "100%"></td>
-    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/screenshot_4.png?raw=true"  width = "100%"></td>
+    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/3.png?raw=true"  width = "100%"></td>
+    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/4.png?raw=true"  width = "100%"></td>
   </tr>
      <tr>
-    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/screenshot_5.png?raw=true"  width = "100%"></td>
+    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/5.png?raw=true"  width = "100%"></td>
+    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/6.png?raw=true"  width = "100%"></td>
+  </tr>
+  <tr>
+    <td> <img src="https://github.com/Muharrem-Yildirim/reactjs-live-support-system/blob/main/screenshots/8.png?raw=true"  width = "100%"></td>
   </tr>
 </table>
 
